@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineConnect: Group & Party Edition</title>
+    <title>CineConnect: Indian Cinema Endless Challenge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -19,23 +19,26 @@
         <div class="flex items-center gap-2.5">
             <span class="text-2xl">🎬</span>
             <div>
-                <h1 class="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">CineConnect Party</h1>
-                <p class="text-[10px] text-zinc-400">Indian Cinema Group Battle</p>
+                <h1 class="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">CineConnect</h1>
+                <p class="text-[10px] text-zinc-400">1950s to 2020s Indian Cinema Connection</p>
             </div>
         </div>
         <div class="flex items-center gap-2">
             <button id="customChallengeBtn" class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 text-xs font-semibold transition flex items-center gap-1.5">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> Custom Match
             </button>
+            <button id="randomMatchBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-shuffle"></i> Random Pair
+            </button>
             <button id="groupSetupBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
-                <i class="fa-solid fa-users"></i> Players (<span id="playerCountLabel">2</span>)
+                <i class="fa-solid fa-users"></i> (<span id="playerCountLabel">2</span>)
             </button>
         </div>
     </header>
 
     <main class="flex-1 max-w-2xl w-full mx-auto p-4 sm:p-6 flex flex-col gap-4">
 
-        <!-- Turn & Player Status Bar -->
+        <!-- Turn & Stats Status Bar -->
         <div id="turnBanner" class="bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-transparent border border-amber-500/30 rounded-2xl p-3 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
                 <div class="w-8 h-8 rounded-full bg-amber-500 text-black font-black flex items-center justify-center text-xs shadow-md">
@@ -48,22 +51,26 @@
             </div>
             <div class="flex items-center gap-3">
                 <div class="text-right">
-                    <span class="text-[10px] text-zinc-400 block">Round Moves</span>
+                    <span class="text-[10px] text-zinc-400 block">Moves</span>
                     <span id="stepCount" class="font-black text-amber-400 text-sm">0</span>
                 </div>
-                <button id="resetLevelBtn" class="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-400 text-xs transition" title="Restart Challenge">
+                <div class="text-right border-l border-zinc-800 pl-3">
+                    <span class="text-[10px] text-zinc-400 block">Rounds Cleared</span>
+                    <span id="totalClearedCount" class="font-black text-emerald-400 text-sm">0</span>
+                </div>
+                <button id="resetLevelBtn" class="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-400 text-xs transition" title="Restart Round">
                     <i class="fa-solid fa-arrow-rotate-left"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Target Cards: From ANY entity to ANY entity -->
+        <!-- Target Cards -->
         <div class="grid grid-cols-2 gap-3 sm:gap-4 items-center">
             <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col items-center text-center">
                 <span class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Starting Point</span>
                 <div id="startNodeIcon" class="text-2xl mb-1">🎬</div>
                 <div id="startNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">-</div>
-                <span id="startNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-zinc-800 text-zinc-300">MOVIE</span>
+                <span id="startNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-zinc-800 text-zinc-300">ACTOR</span>
             </div>
 
             <div class="bg-zinc-900 border border-amber-500/30 rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden">
@@ -71,65 +78,66 @@
                 <span class="text-[10px] uppercase font-bold text-amber-400 mb-1">Target to Reach</span>
                 <div id="targetNodeIcon" class="text-2xl mb-1">🎯</div>
                 <div id="targetNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">-</div>
-                <span id="targetNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">MOVIE</span>
+                <span id="targetNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">ACTOR</span>
             </div>
         </div>
 
-        <!-- Trail Container -->
+        <!-- Connection Trail -->
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
             <span class="text-xs text-zinc-400 block mb-2 font-medium">Chain of Connections:</span>
-            <div id="trailContainer" class="flex flex-wrap items-center gap-2 text-xs">
-                <!-- Trail chips rendered by JS -->
-            </div>
+            <div id="trailContainer" class="flex flex-wrap items-center gap-2 text-xs"></div>
         </div>
 
-        <!-- Interactive Next Move Selector -->
+        <!-- Move Input with Autocomplete Suggestions -->
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 sm:p-5 flex flex-col gap-3">
             <div class="flex items-center justify-between">
                 <label class="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
-                    <i class="fa-solid fa-magnifying-glass text-amber-400"></i> Next Connected Actor, Director, or Movie:
+                    <i class="fa-solid fa-magnifying-glass text-amber-400"></i> Search Any Connected Actor, Director, or Movie:
                 </label>
-                <span class="text-[10px] text-zinc-500">Pick below or type</span>
+                <span class="text-[10px] text-zinc-500">Live search & suggestions</span>
             </div>
 
             <div class="relative">
-                <input id="searchInput" type="text" placeholder="Search connected actor, movie or director..."
+                <input id="searchInput" type="text" autocomplete="off" placeholder="Type actor name, director or movie..."
                     class="w-full bg-zinc-950 border border-zinc-700 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition">
-                <div id="autocompleteList" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-48 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
+                <div id="autocompleteList" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-52 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
             </div>
 
             <div>
-                <span class="text-[11px] text-zinc-400 block mb-2">Available Links for current entity:</span>
-                <div id="availableChips" class="flex flex-wrap gap-2 max-h-44 overflow-y-auto custom-scroll p-1">
-                    <!-- Dynamic chips -->
-                </div>
+                <span class="text-[11px] text-zinc-400 block mb-2">Or choose from valid connections below:</span>
+                <div id="availableChips" class="flex flex-wrap gap-2 max-h-48 overflow-y-auto custom-scroll p-1"></div>
             </div>
         </div>
 
     </main>
 
-    <!-- Custom Challenge Modal -->
+    <!-- Custom Challenge Modal with Auto-Suggest search for inputting ANY 2 entities -->
     <div id="customModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-zinc-900 border border-zinc-700 rounded-2xl p-5 max-w-md w-full flex flex-col gap-4">
             <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
                 <h3 class="font-bold text-sm text-zinc-100 flex items-center gap-2">
-                    <i class="fa-solid fa-sliders text-amber-400"></i> Create Custom Match
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Setup Custom Match (Any 2 Names)
                 </h3>
                 <button id="closeCustomModal" class="text-zinc-500 hover:text-zinc-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
-            <p class="text-xs text-zinc-400">Pick any two entities (actors, directors, or movies) from the database to see if your friends can connect them!</p>
+            <p class="text-xs text-zinc-400">Type any actor, actress, director, or movie from 1950s to 2020s to challenge your friends!</p>
 
             <div class="flex flex-col gap-3">
-                <div>
-                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Start From:</label>
-                    <select id="customStartSelect" class="w-full bg-zinc-950 border border-zinc-700 rounded-xl p-2.5 text-xs text-zinc-200 outline-none focus:border-amber-500">
-                    </select>
+                <!-- Custom Start Input with suggestions -->
+                <div class="relative">
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Start From (Type name):</label>
+                    <input id="customStartInput" type="text" autocomplete="off" placeholder="e.g. Dilip Kumar, Amitabh Bachchan, SRK..."
+                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
+                    <div id="customStartSuggest" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-40 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
                 </div>
-                <div>
-                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Connect To (Target):</label>
-                    <select id="customTargetSelect" class="w-full bg-zinc-950 border border-zinc-700 rounded-xl p-2.5 text-xs text-zinc-200 outline-none focus:border-amber-500">
-                    </select>
+
+                <!-- Custom Target Input with suggestions -->
+                <div class="relative">
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Target to Reach (Type name):</label>
+                    <input id="customTargetInput" type="text" autocomplete="off" placeholder="e.g. Rajinikanth, Alia Bhatt, Ranbir..."
+                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
+                    <div id="customTargetSuggest" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-40 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
                 </div>
             </div>
 
@@ -149,9 +157,7 @@
                 <button id="closePlayersModal" class="text-zinc-500 hover:text-zinc-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <div id="playersInputList" class="flex flex-col gap-2">
-                <!-- Dynamically generated player name fields -->
-            </div>
+            <div id="playersInputList" class="flex flex-col gap-2"></div>
 
             <div class="flex gap-2">
                 <button id="addPlayerFieldBtn" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2 rounded-xl text-xs transition">
@@ -164,62 +170,179 @@
         </div>
     </div>
 
-    <!-- Winner Celebration Modal -->
+    <!-- Winner Celebration Modal with Unlimited Play -->
     <div id="winModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-zinc-900 border border-amber-500/40 rounded-3xl p-6 max-w-sm w-full text-center flex flex-col items-center shadow-2xl">
             <div class="text-5xl mb-2 animate-bounce">🏆</div>
-            <h2 class="text-xl font-black text-amber-400 mb-1">Connection Complete!</h2>
-            <p id="winPlayerCelebration" class="text-sm font-semibold text-zinc-100 mb-1">Player 1 took the final step!</p>
+            <h2 class="text-xl font-black text-amber-400 mb-1">Bridge Connected!</h2>
+            <p id="winPlayerCelebration" class="text-sm font-semibold text-zinc-100 mb-1">Player 1 connected the bridge!</p>
             <p id="winSubtext" class="text-xs text-zinc-400 mb-5">Completed in 4 steps.</p>
 
             <div class="flex flex-col gap-2 w-full">
-                <button id="modalPlayAgainBtn" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2.5 rounded-xl text-xs transition">Play Another Round</button>
-                <button id="modalNewChallengeBtn" class="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2.5 rounded-xl text-xs transition">Choose Custom Names</button>
+                <button id="modalPlayNextBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-black font-bold py-2.5 rounded-xl text-xs transition">
+                    <i class="fa-solid fa-play"></i> Play Next Match (Unlimited)
+                </button>
+                <button id="modalCustomBtn" class="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2.5 rounded-xl text-xs transition">
+                    Custom Match
+                </button>
+                <button id="modalReplayBtn" class="w-full bg-zinc-900 hover:bg-zinc-800 text-zinc-400 font-semibold py-2 rounded-xl text-xs transition border border-zinc-800">
+                    Replay Same Pair
+                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // Massive Pan-Indian Cinema Database (Hindi, Telugu, Tamil, Kannada, Malayalam)
+        // Massive Historical & Pan-Indian Cinema Database (1950s Golden Era to 2020s Blockbusters)
         const DB = {
             movies: {
-                "Jawan": { cast: ["Shah Rukh Khan", "Nayanthara", "Vijay Sethupathi", "Deepika Padukone"], directors: ["Atlee"] },
-                "Pathaan": { cast: ["Shah Rukh Khan", "Deepika Padukone", "John Abraham", "Salman Khan"], directors: ["Siddharth Anand"] },
-                "Tiger 3": { cast: ["Salman Khan", "Katrina Kaif", "Emraan Hashmi", "Shah Rukh Khan"], directors: ["Maneesh Sharma"] },
-                "Fighter": { cast: ["Hrithik Roshan", "Deepika Padukone", "Anil Kapoor"], directors: ["Siddharth Anand"] },
+                // 1950s - 1960s Golden Era
+                "Mughal-e-Azam": { cast: ["Dilip Kumar", "Madhubala", "Prithviraj Kapoor"], directors: ["K. Asif"] },
+                "Devdas (1955)": { cast: ["Dilip Kumar", "Vyjayanthimala", "Motilal"], directors: ["Bimal Roy"] },
+                "Madhumati": { cast: ["Dilip Kumar", "Vyjayanthimala", "Pran"], directors: ["Bimal Roy"] },
+                "Naya Daur": { cast: ["Dilip Kumar", "Vyjayanthimala", "Ajit Khan"], directors: ["B. R. Chopra"] },
+                "Shree 420": { cast: ["Raj Kapoor", "Nargis", "Nadira"], directors: ["Raj Kapoor"] },
+                "Awaara": { cast: ["Raj Kapoor", "Nargis", "Prithviraj Kapoor"], directors: ["Raj Kapoor"] },
+                "Pyaasa": { cast: ["Guru Dutt", "Waheeda Rehman", "Mala Sinha", "Johnny Walker"], directors: ["Guru Dutt"] },
+                "Kaagaz Ke Phool": { cast: ["Guru Dutt", "Waheeda Rehman", "Baby Naaz"], directors: ["Guru Dutt"] },
+                "Chaudhvin Ka Chand": { cast: ["Guru Dutt", "Waheeda Rehman", "Rehman"], directors: ["Mohammed趋势 M. Sadiq"] },
+                "Guide": { cast: ["Dev Anand", "Waheeda Rehman", "Kishore Sahu"], directors: ["Vijay Anand"] },
+                "Jewel Thief": { cast: ["Dev Anand", "Vyjayanthimala", "Ashok Kumar", "Tanuja"], directors: ["Vijay Anand"] },
+                "Howrah Bridge": { cast: ["Ashok Kumar", "Madhubala", "K. N. Singh"], directors: ["Shakti Samanta"] },
+                "Kashmir Ki Kali": { cast: ["Shammi Kapoor", "Sharmila Tagore", "Pran"], directors: ["Shakti Samanta"] },
+                "Teesri Manzil": { cast: ["Shammi Kapoor", "Asha Parekh", "Prem Chopra"], directors: ["Vijay Anand"] },
+                "Waqt": { cast: ["Sunil Dutt", "Raaj Kumar", "Shashi Kapoor", "Sadhana", "Sharmila Tagore"], directors: ["Yash Chopra"] },
+
+                // 1970s - 1980s Era
+                "Anand": { cast: ["Rajesh Khanna", "Amitabh Bachchan", "Sumita Sanyal"], directors: ["Hrishikesh Mukherjee"] },
+                "Aradhana": { cast: ["Rajesh Khanna", "Sharmila Tagore", "Farida Jalal"], directors: ["Shakti Samanta"] },
+                "Amar Prem": { cast: ["Rajesh Khanna", "Sharmila Tagore", "Vinod Mehra"], directors: ["Shakti Samanta"] },
+                "Zanjeer": { cast: ["Amitabh Bachchan", "Jaya Bachchan", "Pran"], directors: ["Prakash Mehra"] },
+                "Sholay": { cast: ["Dharmendra", "Amitabh Bachchan", "Sanjeev Kumar", "Hema Malini", "Jaya Bachchan", "Amjad Khan"], directors: ["Ramesh Sippy"] },
+                "Deewaar": { cast: ["Amitabh Bachchan", "Shashi Kapoor", "Nirupa Roy", "Parveen Babi"], directors: ["Yash Chopra"] },
+                "Trishul": { cast: ["Amitabh Bachchan", "Sanjeev Kumar", "Shashi Kapoor", "Hema Malini", "Poonam Dhillon"], directors: ["Yash Chopra"] },
+                "Don (1978)": { cast: ["Amitabh Bachchan", "Zeenat Aman", "Pran"], directors: ["Chandra Barot"] },
+                "Silsila": { cast: ["Amitabh Bachchan", "Jaya Bachchan", "Rekha", "Sanjeev Kumar"], directors: ["Yash Chopra"] },
+                "Muqaddar Ka Sikandar": { cast: ["Amitabh Bachchan", "Vinod Khanna", "Rekha", "Amjad Khan"], directors: ["Prakash Mehra"] },
+                "Amar Akbar Anthony": { cast: ["Amitabh Bachchan", "Vinod Khanna", "Rishi Kapoor", "Parveen Babi", "Shabana Azmi", "Neetu Singh"], directors: ["Manmohan Desai"] },
+                "Bobby": { cast: ["Rishi Kapoor", "Dimple Kapadia", "Pran", "Prem Nath"], directors: ["Raj Kapoor"] },
+                "Karz": { cast: ["Rishi Kapoor", "Tina Munim", "Simi Garewal", "Pran"], directors: ["Subhash Ghai"] },
+                "Saagar": { cast: ["Kamal Haasan", "Rishi Kapoor", "Dimple Kapadia"], directors: ["Ramesh Sippy"] },
+                "Sadma": { cast: ["Kamal Haasan", "Sridevi", "Gulshan Grover"], directors: ["Balu Mahendra"] },
+                "Mr. India": { cast: ["Anil Kapoor", "Sridevi", "Amrish Puri"], directors: ["Shekhar Kapur"] },
+                "Chandni": { cast: ["Sridevi", "Rishi Kapoor", "Vinod Khanna"], directors: ["Yash Chopra"] },
+                "Nayakan": { cast: ["Kamal Haasan", "Saranya Ponvannan", "Janagaraj"], directors: ["Mani Ratnam"] },
+
+                // 1990s Era
+                "Agneepath (1990)": { cast: ["Amitabh Bachchan", "Mithun Chakraborty", "Danny Denzongpa"], directors: ["Mukul S. Anand"] },
+                "Hum": { cast: ["Amitabh Bachchan", "Rajinikanth", "Govinda", "Kimi Katkar", "Anupam Kher"], directors: ["Mukul S. Anand"] },
+                "Thalapathi": { cast: ["Rajinikanth", "Mammootty", "Arvind Swamy", "Shobana"], directors: ["Mani Ratnam"] },
+                "Roja": { cast: ["Arvind Swamy", "Madhoo", "Pankaj Kapur"], directors: ["Mani Ratnam"] },
+                "Bombay": { cast: ["Arvind Swamy", "Manisha Koirala"], directors: ["Mani Ratnam"] },
+                "Dil": { cast: ["Aamir Khan", "Madhuri Dixit", "Anupam Kher"], directors: ["Indra Kumar"] },
+                "Beta": { cast: ["Anil Kapoor", "Madhuri Dixit", "Aruna Irani", "Anupam Kher"], directors: ["Indra Kumar"] },
+                "Hum Aapke Hain Koun..!": { cast: ["Salman Khan", "Madhuri Dixit", "Mohnish Bahl", "Anupam Kher", "Alok Nath"], directors: ["Sooraj Barjatya"] },
+                "Andaz Apna Apna": { cast: ["Aamir Khan", "Salman Khan", "Raveena Tandon", "Karisma Kapoor", "Paresh Rawal"], directors: ["Rajkumar Santoshi"] },
+                "Karan Arjun": { cast: ["Shah Rukh Khan", "Salman Khan", "Kajol", "Mamta Kulkarni", "Amrish Puri"], directors: ["Rakesh Roshan"] },
+                "Dilwale Dulhania Le Jayenge": { cast: ["Shah Rukh Khan", "Kajol", "Amrish Puri", "Anupam Kher", "Farida Jalal"], directors: ["Aditya Chopra"] },
+                "Kuch Kuch Hota Hai": { cast: ["Shah Rukh Khan", "Kajol", "Rani Mukerji", "Salman Khan", "Anupam Kher"], directors: ["Karan Johar"] },
+                "Satya": { cast: ["J. D. Chakravarthy", "Manoj Bajpayee", "Urmila Matondkar", "Saurabh Shukla"], directors: ["Ram Gopal Varma"] },
+                "Dil Se..": { cast: ["Shah Rukh Khan", "Manisha Koirala", "Preity Zinta"], directors: ["Mani Ratnam"] },
+                "Sarfarosh": { cast: ["Aamir Khan", "Naseeruddin Shah", "Sonali Bendre"], directors: ["John Matthew Matthan"] },
+                "Hum Dil De Chuke Sanam": { cast: ["Salman Khan", "Aishwarya Rai", "Ajay Devgn"], directors: ["Sanjay Leela Bhansali"] },
+                "Padayappa": { cast: ["Rajinikanth", "Sivaji Ganesan", "Ramya Krishnan", "Soundarya"], directors: ["K. S. Ravikumar"] },
+
+                // 2000s Era
+                "Mohabbatein": { cast: ["Amitabh Bachchan", "Shah Rukh Khan", "Aishwarya Rai", "Uday Chopra"], directors: ["Aditya Chopra"] },
+                "Lagaan": { cast: ["Aamir Khan", "Gracy Singh", "Rachel Shelley"], directors: ["Ashutosh Gowariker"] },
+                "Dil Chahta Hai": { cast: ["Aamir Khan", "Saif Ali Khan", "Akshaye Khanna", "Preity Zinta", "Dimple Kapadia"], directors: ["Farhan Akhtar"] },
+                "Kabhi Khushi Kabhie Gham...": { cast: ["Amitabh Bachchan", "Jaya Bachchan", "Shah Rukh Khan", "Kajol", "Hrithik Roshan", "Kareena Kapoor"], directors: ["Karan Johar"] },
+                "Devdas (2002)": { cast: ["Shah Rukh Khan", "Aishwarya Rai", "Madhuri Dixit", "Jackie Shroff"], directors: ["Sanjay Leela Bhansali"] },
+                "Munna Bhai M.B.B.S.": { cast: ["Sanjay Dutt", "Arshad Warsi", "Sunil Dutt", "Boman Irani"], directors: ["Rajkumar Hirani"] },
+                "Kal Ho Naa Ho": { cast: ["Shah Rukh Khan", "Preity Zinta", "Saif Ali Khan", "Jaya Bachchan"], directors: ["Nikkhil Advani"] },
+                "Swades": { cast: ["Shah Rukh Khan", "Gayatri Joshi", "Kishori Ballal"], directors: ["Ashutosh Gowariker"] },
+                "Dhoom": { cast: ["Abhishek Bachchan", "John Abraham", "Uday Chopra", "Esha Deol"], directors: ["Sanjay Gadhvi"] },
+                "Dhoom 2": { cast: ["Hrithik Roshan", "Abhishek Bachchan", "Aishwarya Rai", "Bipasha Basu"], directors: ["Sanjay Gadhvi"] },
+                "Rang De Basanti": { cast: ["Aamir Khan", "Siddharth", "Sharman Joshi", "Kunal Kapoor", "Soha Ali Khan", "R. Madhavan"], directors: ["Rakeysh Omprakash Mehra"] },
+                "Omkara": { cast: ["Ajay Devgn", "Saif Ali Khan", "Kareena Kapoor", "Vivek Oberoi", "Konkona Sen Sharma"], directors: ["Vishal Bhardwaj"] },
+                "Don (2006)": { cast: ["Shah Rukh Khan", "Priyanka Chopra", "Boman Irani", "Arjun Rampal"], directors: ["Farhan Akhtar"] },
+                "Guru": { cast: ["Abhishek Bachchan", "Aishwarya Rai", "Mithun Chakraborty", "R. Madhavan", "Vidya Balan"], directors: ["Mani Ratnam"] },
+                "Chak De! India": { cast: ["Shah Rukh Khan", "Vidya Malvade"], directors: ["Shimit Amin"] },
+                "Taare Zameen Par": { cast: ["Aamir Khan", "Darsheel Safary", "Tisca Chopra"], directors: ["Aamir Khan"] },
+                "Sivaji: The Boss": { cast: ["Rajinikanth", "Shriya Saran", "Suman"], directors: ["S. Shankar"] },
+                "Ghajini": { cast: ["Aamir Khan", "Asin", "Jiah Khan"], directors: ["A. R. Murugadoss"] },
+                "3 Idiots": { cast: ["Aamir Khan", "R. Madhavan", "Sharman Joshi", "Kareena Kapoor", "Boman Irani"], directors: ["Rajkumar Hirani"] },
+                "Magadheera": { cast: ["Ram Charan", "Kajal Aggarwal", "Dev Gill", "Srihari"], directors: ["S. S. Rajamouli"] },
+
+                // 2010s to 2020s Pan-Indian Era
+                "Enthiran (Robot)": { cast: ["Rajinikanth", "Aishwarya Rai", "Danny Denzongpa"], directors: ["S. Shankar"] },
+                "Zindagi Na Milegi Dobara": { cast: ["Hrithik Roshan", "Farhan Akhtar", "Abhay Deol", "Katrina Kaif", "Kalki Koechlin"], directors: ["Zoya Akhtar"] },
+                "Gangs of Wasseypur": { cast: ["Manoj Bajpayee", "Nawazuddin Siddiqui", "Richa Chadha", "Huma Qureshi", "Pankaj Tripathi", "Tigmanshu Dhulia"], directors: ["Anurag Kashyap"] },
+                "Barfi!": { cast: ["Ranbir Kapoor", "Priyanka Chopra", "Ileana D'Cruz"], directors: ["Anurag Basu"] },
+                "Yeh Jawaani Hai Deewani": { cast: ["Ranbir Kapoor", "Deepika Padukone", "Aditya Roy Kapur", "Kalki Koechlin"], directors: ["Ayan Mukerji"] },
+                "Chennai Express": { cast: ["Shah Rukh Khan", "Deepika Padukone", "Sathyaraj"], directors: ["Rohit Shetty"] },
+                "Queen": { cast: ["Kangana Ranaut", "Rajkummar Rao", "Lisa Haydon"], directors: ["Vikas Bahl"] },
+                "PK": { cast: ["Aamir Khan", "Anushka Sharma", "Sushant Singh Rajput", "Sanjay Dutt", "Boman Irani"], directors: ["Rajkumar Hirani"] },
+                "Baahubali: The Beginning": { cast: ["Prabhas", "Rana Daggubati", "Anushka Shetty", "Tamannaah Bhatia", "Ramya Krishnan", "Sathyaraj"], directors: ["S. S. Rajamouli"] },
+                "Bajrangi Bhaijaan": { cast: ["Salman Khan", "Kareena Kapoor", "Nawazuddin Siddiqui", "Harshaali Malhotra"], directors: ["Kabir Khan"] },
+                "Dangal": { cast: ["Aamir Khan", "Fatima Sana Shaikh", "Sanya Malhotra"], directors: ["Nitesh Tiwari"] },
+                "Baahubali: The Conclusion": { cast: ["Prabhas", "Rana Daggubati", "Anushka Shetty", "Tamannaah Bhatia", "Sathyaraj"], directors: ["S. S. Rajamouli"] },
+                "Arjun Reddy": { cast: ["Vijay Deverakonda", "Shalini Pandey"], directors: ["Sandeep Reddy Vanga"] },
+                "K.G.F: Chapter 1": { cast: ["Yash", "Srinidhi Shetty", "Ramachandra Raju"], directors: ["Prashanth Neel"] },
+                "Andhadhun": { cast: ["Ayushmann Khurrana", "Tabu", "Radhika Apte"], directors: ["Sriram Raghavan"] },
                 "War": { cast: ["Hrithik Roshan", "Tiger Shroff", "Vaani Kapoor"], directors: ["Siddharth Anand"] },
-                "Kalki 2898 AD": { cast: ["Prabhas", "Amitabh Bachchan", "Deepika Padukone", "Kamal Haasan", "Disha Patani"], directors: ["Nag Ashwin"] },
-                "RRR": { cast: ["N. T. Rama Rao Jr.", "Ram Charan", "Alia Bhatt", "Ajay Devgn"], directors: ["S. S. Rajamouli"] },
-                "Baahubali": { cast: ["Prabhas", "Rana Daggubati", "Anushka Shetty", "Tamannaah Bhatia"], directors: ["S. S. Rajamouli"] },
-                "Brahmāstra": { cast: ["Ranbir Kapoor", "Alia Bhatt", "Amitabh Bachchan", "Shah Rukh Khan", "Nagarjuna"], directors: ["Ayan Mukerji"] },
-                "Animal": { cast: ["Ranbir Kapoor", "Rashmika Mandanna", "Anil Kapoor", "Bobby Deol"], directors: ["Sandeep Reddy Vanga"] },
-                "Kabir Singh": { cast: ["Shahid Kapoor", "Kiara Advani"], directors: ["Sandeep Reddy Vanga"] },
-                "Pushpa": { cast: ["Allu Arjun", "Rashmika Mandanna", "Fahadh Faasil"], directors: ["Sukumar"] },
-                "Vikram": { cast: ["Kamal Haasan", "Vijay Sethupathi", "Fahadh Faasil", "Suriya"], directors: ["Lokesh Kanagaraj"] },
-                "Leo": { cast: ["Thalapathy Vijay", "Sanjay Dutt", "Trisha Krishnan", "Arjun Sarja"], directors: ["Lokesh Kanagaraj"] },
                 "Master": { cast: ["Thalapathy Vijay", "Vijay Sethupathi", "Malavika Mohanan"], directors: ["Lokesh Kanagaraj"] },
+                "Pushpa: The Rise": { cast: ["Allu Arjun", "Rashmika Mandanna", "Fahadh Faasil"], directors: ["Sukumar"] },
+                "RRR": { cast: ["N. T. Rama Rao Jr.", "Ram Charan", "Alia Bhatt", "Ajay Devgn", "Shriya Saran"], directors: ["S. S. Rajamouli"] },
                 "K.G.F: Chapter 2": { cast: ["Yash", "Sanjay Dutt", "Raveena Tandon", "Srinidhi Shetty"], directors: ["Prashanth Neel"] },
-                "Salaar": { cast: ["Prabhas", "Prithviraj Sukumaran", "Shruti Haasan"], directors: ["Prashanth Neel"] },
-                "Jailer": { cast: ["Rajinikanth", "Mohanlal", "Shiva Rajkumar", "Jackie Shroff", "Tamannaah Bhatia"], directors: ["Nelson Dilipkumar"] },
-                "Bigil": { cast: ["Thalapathy Vijay", "Nayanthara", "Jackie Shroff"], directors: ["Atlee"] }
+                "Vikram": { cast: ["Kamal Haasan", "Vijay Sethupathi", "Fahadh Faasil", "Suriya"], directors: ["Lokesh Kanagaraj"] },
+                "Brahmāstra: Part One": { cast: ["Ranbir Kapoor", "Alia Bhatt", "Amitabh Bachchan", "Shah Rukh Khan", "Nagarjuna"], directors: ["Ayan Mukerji"] },
+                "Ponniyin Selvan": { cast: ["Vikram", "Aishwarya Rai", "Jayam Ravi", "Karthi", "Trisha Krishnan", "Sobhita Dhulipala"], directors: ["Mani Ratnam"] },
+                "Pathaan": { cast: ["Shah Rukh Khan", "Deepika Padukone", "John Abraham", "Salman Khan"], directors: ["Siddharth Anand"] },
+                "Jawan": { cast: ["Shah Rukh Khan", "Nayanthara", "Vijay Sethupathi", "Deepika Padukone", "Sanjay Dutt"], directors: ["Atlee"] },
+                "Jailer": { cast: ["Rajinikanth", "Mohanlal", "Shiva Rajkumar", "Jackie Shroff", "Tamannaah Bhatia", "Ramya Krishnan"], directors: ["Nelson Dilipkumar"] },
+                "Leo": { cast: ["Thalapathy Vijay", "Sanjay Dutt", "Trisha Krishnan", "Arjun Sarja"], directors: ["Lokesh Kanagaraj"] },
+                "Tiger 3": { cast: ["Salman Khan", "Katrina Kaif", "Emraan Hashmi", "Shah Rukh Khan"], directors: ["Maneesh Sharma"] },
+                "Animal": { cast: ["Ranbir Kapoor", "Rashmika Mandanna", "Anil Kapoor", "Bobby Deol", "Triptii Dimri"], directors: ["Sandeep Reddy Vanga"] },
+                "Salaar": { cast: ["Prabhas", "Prithviraj Sukumaran", "Shruti Haasan", "Jagapathi Babu"], directors: ["Prashanth Neel"] },
+                "Fighter": { cast: ["Hrithik Roshan", "Deepika Padukone", "Anil Kapoor"], directors: ["Siddharth Anand"] },
+                "Kalki 2898 AD": { cast: ["Prabhas", "Amitabh Bachchan", "Deepika Padukone", "Kamal Haasan", "Disha Patani"], directors: ["Nag Ashwin"] },
+                "Stree 2": { cast: ["Rajkummar Rao", "Shraddha Kapoor", "Pankaj Tripathi", "Abhishek Banerjee", "Varun Dhawan", "Akshay Kumar"], directors: ["Amar Kaushik"] },
+                "Devara": { cast: ["N. T. Rama Rao Jr.", "Janhvi Kapoor", "Saif Ali Khan"], directors: ["Koratala Siva"] }
             }
         };
 
-        // Players state
+        // Popular curated preset challenges for endless play
+        const PRESET_PAIRS = [
+            { start: { name: "Dilip Kumar", type: "actor" }, target: { name: "Shah Rukh Khan", type: "actor" } },
+            { start: { name: "Raj Kapoor", type: "actor" }, target: { name: "Ranbir Kapoor", type: "actor" } },
+            { start: { name: "Guru Dutt", type: "actor" }, target: { name: "Deepika Padukone", type: "actor" } },
+            { start: { name: "Waheeda Rehman", type: "actor" }, target: { name: "Alia Bhatt", type: "actor" } },
+            { start: { name: "Amitabh Bachchan", type: "actor" }, target: { name: "Rajinikanth", type: "actor" } },
+            { start: { name: "Kamal Haasan", type: "actor" }, target: { name: "Shah Rukh Khan", type: "actor" } },
+            { start: { name: "Prabhas", type: "actor" }, target: { name: "Dharmendra", type: "actor" } },
+            { start: { name: "Allu Arjun", type: "actor" }, target: { name: "Ranbir Kapoor", type: "actor" } },
+            { start: { name: "Thalapathy Vijay", type: "actor" }, target: { name: "Salman Khan", type: "actor" } },
+            { start: { name: "Yash", type: "actor" }, target: { name: "Aamir Khan", type: "actor" } },
+            { start: { name: "Fahadh Faasil", type: "actor" }, target: { name: "Hrithik Roshan", type: "actor" } },
+            { start: { name: "Sridevi", type: "actor" }, target: { name: "Nayanthara", type: "actor" } },
+            { start: { name: "Mughal-e-Azam", type: "movie" }, target: { name: "Kalki 2898 AD", type: "movie" } },
+            { start: { name: "Sholay", type: "movie" }, target: { name: "Animal", type: "movie" } },
+            { start: { name: "S. S. Rajamouli", type: "director" }, target: { name: "Yash Chopra", type: "director" } }
+        ];
+
         let players = ["Player 1", "Player 2"];
         let currentPlayerIndex = 0;
+        let roundsCleared = 0;
+        let currentPairIndex = 0;
 
-        // Challenge state
-        let currentChallenge = {
-            start: { name: "Shah Rukh Khan", type: "actor" },
-            target: { name: "Kamal Haasan", type: "actor" }
-        };
+        let currentChallenge = PRESET_PAIRS[0];
         let currentTrail = [];
 
         function init() {
-            populateCustomSelects();
             renderPlayerInputs();
             setupSearch();
+            setupCustomInputsAutoSuggest();
             setupEventListeners();
             startChallenge(currentChallenge.start, currentChallenge.target);
         }
@@ -227,15 +350,22 @@
         function setupEventListeners() {
             document.getElementById('groupSetupBtn').onclick = () => document.getElementById('playersModal').classList.remove('hidden');
             document.getElementById('closePlayersModal').onclick = () => document.getElementById('playersModal').classList.add('hidden');
-            document.getElementById('customChallengeBtn').onclick = () => document.getElementById('customModal').classList.remove('hidden');
+            
+            document.getElementById('customChallengeBtn').onclick = () => {
+                document.getElementById('customStartInput').value = '';
+                document.getElementById('customTargetInput').value = '';
+                document.getElementById('customModal').classList.remove('hidden');
+            };
             document.getElementById('closeCustomModal').onclick = () => document.getElementById('customModal').classList.add('hidden');
 
+            document.getElementById('randomMatchBtn').onclick = playRandomMatch;
+
             document.getElementById('addPlayerFieldBtn').onclick = () => {
-                if (players.length < 6) {
+                if (players.length < 8) {
                     players.push(`Player ${players.length + 1}`);
                     renderPlayerInputs();
                 } else {
-                    alert("Maximum 6 players allowed.");
+                    alert("Maximum 8 players supported.");
                 }
             };
 
@@ -246,90 +376,80 @@
                     const name = inp.value.trim() || `Player ${idx + 1}`;
                     newPlayers.push(name);
                 });
-                if (newPlayers.length >= 2) {
+                if (newPlayers.length >= 1) {
                     players = newPlayers;
                     document.getElementById('playerCountLabel').textContent = players.length;
                     document.getElementById('playersModal').classList.add('hidden');
                     updateTurnIndicator();
-                } else {
-                    alert("Please enter at least 2 players!");
                 }
             };
 
+            // Start custom challenge typed by user
             document.getElementById('startCustomChallengeBtn').onclick = () => {
-                const startRaw = document.getElementById('customStartSelect').value;
-                const targetRaw = document.getElementById('customTargetSelect').value;
-                if (startRaw === targetRaw) {
-                    alert("Start and Target cannot be identical!");
+                const startVal = document.getElementById('customStartInput').value.trim();
+                const targetVal = document.getElementById('customTargetInput').value.trim();
+
+                const startEntity = findEntity(startVal);
+                const targetEntity = findEntity(targetVal);
+
+                if (!startEntity) {
+                    alert(`Could not find "${startVal}" in database. Please choose from suggestions!`);
                     return;
                 }
-                const [startType, startName] = startRaw.split(':::');
-                const [targetType, targetName] = targetRaw.split(':::');
+                if (!targetEntity) {
+                    alert(`Could not find "${targetVal}" in database. Please choose from suggestions!`);
+                    return;
+                }
+                if (startEntity.name.toLowerCase() === targetEntity.name.toLowerCase()) {
+                    alert("Starting point and target cannot be the same!");
+                    return;
+                }
 
                 document.getElementById('customModal').classList.add('hidden');
-                startChallenge({ name: startName, type: startType }, { name: targetName, type: targetType });
+                startChallenge(startEntity, targetEntity);
             };
 
             document.getElementById('resetLevelBtn').onclick = () => {
                 startChallenge(currentChallenge.start, currentChallenge.target);
             };
 
-            document.getElementById('modalPlayAgainBtn').onclick = () => {
+            // Unlimited play next round
+            document.getElementById('modalPlayNextBtn').onclick = () => {
                 document.getElementById('winModal').classList.add('hidden');
-                startChallenge(currentChallenge.start, currentChallenge.target);
+                playNextRound();
             };
 
-            document.getElementById('modalNewChallengeBtn').onclick = () => {
+            document.getElementById('modalCustomBtn').onclick = () => {
                 document.getElementById('winModal').classList.add('hidden');
                 document.getElementById('customModal').classList.remove('hidden');
             };
+
+            document.getElementById('modalReplayBtn').onclick = () => {
+                document.getElementById('winModal').classList.add('hidden');
+                startChallenge(currentChallenge.start, currentChallenge.target);
+            };
         }
 
-        function renderPlayerInputs() {
-            const list = document.getElementById('playersInputList');
-            list.innerHTML = '';
-            players.forEach((p, idx) => {
-                const div = document.createElement('div');
-                div.className = 'flex items-center gap-2';
-                div.innerHTML = `
-                    <span class="text-xs font-bold text-amber-400 w-6">#${idx + 1}</span>
-                    <input type="text" value="${p}" class="player-input-val flex-1 bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
-                    ${players.length > 2 ? `<button onclick="removePlayer(${idx})" class="text-zinc-500 hover:text-rose-400 text-xs px-2"><i class="fa-solid fa-trash"></i></button>` : ''}
-                `;
-                list.appendChild(div);
-            });
+        function playNextRound() {
+            currentPairIndex = (currentPairIndex + 1) % PRESET_PAIRS.length;
+            const nextPair = PRESET_PAIRS[currentPairIndex];
+            startChallenge(nextPair.start, nextPair.target);
         }
 
-        window.removePlayer = function(index) {
-            if (players.length > 2) {
-                players.splice(index, 1);
-                renderPlayerInputs();
+        function playRandomMatch() {
+            const all = getAllEntities();
+            const start = all[Math.floor(Math.random() * all.length)];
+            let target = all[Math.floor(Math.random() * all.length)];
+            while (target.name === start.name) {
+                target = all[Math.floor(Math.random() * all.length)];
             }
-        };
+            startChallenge(start, target);
+        }
 
-        function populateCustomSelects() {
-            const allItems = getAllEntities();
-            const startSelect = document.getElementById('customStartSelect');
-            const targetSelect = document.getElementById('customTargetSelect');
-
-            startSelect.innerHTML = '';
-            targetSelect.innerHTML = '';
-
-            allItems.forEach(item => {
-                const opt1 = document.createElement('option');
-                opt1.value = `${item.type}:::${item.name}`;
-                opt1.textContent = `${item.type.toUpperCase()}: ${item.name}`;
-                startSelect.appendChild(opt1);
-
-                const opt2 = document.createElement('option');
-                opt2.value = `${item.type}:::${item.name}`;
-                opt2.textContent = `${item.type.toUpperCase()}: ${item.name}`;
-                targetSelect.appendChild(opt2);
-            });
-
-            // Default to popular pair
-            startSelect.value = "actor:::Shah Rukh Khan";
-            targetSelect.value = "actor:::Kamal Haasan";
+        function findEntity(name) {
+            const lower = name.toLowerCase();
+            const all = getAllEntities();
+            return all.find(e => e.name.toLowerCase() === lower);
         }
 
         function getAllEntities() {
@@ -346,6 +466,28 @@
             directors.forEach(d => items.push({ name: d, type: "director" }));
             return items.sort((a, b) => a.name.localeCompare(b.name));
         }
+
+        function renderPlayerInputs() {
+            const list = document.getElementById('playersInputList');
+            list.innerHTML = '';
+            players.forEach((p, idx) => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-2';
+                div.innerHTML = `
+                    <span class="text-xs font-bold text-amber-400 w-6">#${idx + 1}</span>
+                    <input type="text" value="${p}" class="player-input-val flex-1 bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
+                    ${players.length > 1 ? `<button onclick="removePlayer(${idx})" class="text-zinc-500 hover:text-rose-400 text-xs px-2"><i class="fa-solid fa-trash"></i></button>` : ''}
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        window.removePlayer = function(index) {
+            if (players.length > 1) {
+                players.splice(index, 1);
+                renderPlayerInputs();
+            }
+        };
 
         function startChallenge(start, target) {
             currentChallenge = { start, target };
@@ -378,7 +520,7 @@
             const last = currentTrail[currentTrail.length - 1];
             document.getElementById('stepCount').textContent = currentTrail.length - 1;
 
-            // Render Trail
+            // Render Chain
             const trailEl = document.getElementById('trailContainer');
             trailEl.innerHTML = '';
             currentTrail.forEach((node, i) => {
@@ -405,7 +547,6 @@
                 return;
             }
 
-            // Get Next Available Options
             const options = getAvailableConnections(last);
             renderChips(options);
         }
@@ -435,7 +576,7 @@
             const container = document.getElementById('availableChips');
             container.innerHTML = '';
             if (!options.length) {
-                container.innerHTML = '<span class="text-xs text-zinc-500">No further direct connections found. Try another path!</span>';
+                container.innerHTML = '<span class="text-xs text-zinc-500">No further direct connections found. Try another path or restart!</span>';
                 return;
             }
 
@@ -463,7 +604,6 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('autocompleteList').classList.add('hidden');
             
-            // Check win before changing turn
             if (choice.name.toLowerCase() === currentChallenge.target.name.toLowerCase()) {
                 updateTrailAndChips();
                 return;
@@ -474,11 +614,14 @@
         }
 
         function handleWin() {
+            roundsCleared++;
+            document.getElementById('totalClearedCount').textContent = roundsCleared;
             document.getElementById('winPlayerCelebration').textContent = `${players[currentPlayerIndex]} connected the final bridge! 🎉`;
-            document.getElementById('winSubtext').textContent = `The team connected them in ${currentTrail.length - 1} total steps!`;
+            document.getElementById('winSubtext').textContent = `The team successfully connected them in ${currentTrail.length - 1} steps!`;
             document.getElementById('winModal').classList.remove('hidden');
         }
 
+        // Live auto-suggestions for game moves
         function setupSearch() {
             const input = document.getElementById('searchInput');
             const autoList = document.getElementById('autocompleteList');
@@ -497,7 +640,7 @@
                 if (matches.length > 0) {
                     matches.forEach(m => {
                         const div = document.createElement('div');
-                        div.className = 'px-3 py-2 text-xs hover:bg-zinc-800 cursor-pointer text-zinc-200 flex items-center justify-between';
+                        div.className = 'px-3 py-2 text-xs hover:bg-zinc-800 cursor-pointer text-zinc-200 flex items-center justify-between border-b border-zinc-900 last:border-none';
                         div.innerHTML = `<span>${m.name}</span> <span class="text-[10px] text-zinc-500 uppercase">${m.type}</span>`;
                         div.addEventListener('mousedown', (e) => {
                             e.preventDefault();
@@ -516,7 +659,47 @@
             });
         }
 
+        // Auto-suggestions when creating custom matches
+        function setupCustomInputsAutoSuggest() {
+            bindSuggest(document.getElementById('customStartInput'), document.getElementById('customStartSuggest'));
+            bindSuggest(document.getElementById('customTargetInput'), document.getElementById('customTargetSuggest'));
+        }
+
+        function bindSuggest(inputEl, suggestEl) {
+            const all = getAllEntities();
+            inputEl.addEventListener('input', () => {
+                const query = inputEl.value.trim().toLowerCase();
+                if (!query) {
+                    suggestEl.classList.add('hidden');
+                    return;
+                }
+                const matches = all.filter(item => item.name.toLowerCase().includes(query)).slice(0, 10);
+                suggestEl.innerHTML = '';
+                if (matches.length > 0) {
+                    matches.forEach(item => {
+                        const row = document.createElement('div');
+                        row.className = 'px-3 py-2 text-xs hover:bg-zinc-800 cursor-pointer text-zinc-200 flex items-center justify-between border-b border-zinc-900 last:border-none';
+                        row.innerHTML = `<span>${item.name}</span> <span class="text-[10px] text-zinc-500 uppercase">${item.type}</span>`;
+                        row.addEventListener('mousedown', (e) => {
+                            e.preventDefault();
+                            inputEl.value = item.name;
+                            suggestEl.classList.add('hidden');
+                        });
+                        suggestEl.appendChild(row);
+                    });
+                    suggestEl.classList.remove('hidden');
+                } else {
+                    suggestEl.classList.add('hidden');
+                }
+            });
+
+            inputEl.addEventListener('blur', () => {
+                setTimeout(() => suggestEl.classList.add('hidden'), 150);
+            });
+        }
+
         init();
     </script>
 </body>
 </html>
+
