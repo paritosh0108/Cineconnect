@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineConnect: Group & Party Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #18181b; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-amber-500 selection:text-black">
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-zinc-800 bg-zinc-900/80 backdrop-blur sticky top-0 z-40 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+            <span class="text-2xl">🎬</span>
+            <div>
+                <h1 class="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">CineConnect Party</h1>
+                <p class="text-[10px] text-zinc-400">Indian Cinema Group Battle</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="customChallengeBtn" class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 text-xs font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Custom Match
+            </button>
+            <button id="groupSetupBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-users"></i> Players (<span id="playerCountLabel">2</span>)
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-2xl w-full mx-auto p-4 sm:p-6 flex flex-col gap-4">
+
+        <!-- Turn & Player Status Bar -->
+        <div id="turnBanner" class="bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-transparent border border-amber-500/30 rounded-2xl p-3 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-amber-500 text-black font-black flex items-center justify-center text-xs shadow-md">
+                    <span id="turnPlayerNum">1</span>
+                </div>
+                <div>
+                    <span class="text-[10px] text-amber-400/80 uppercase font-bold tracking-wider block">Turn To Pick</span>
+                    <span id="turnPlayerName" class="font-bold text-sm text-zinc-100">Player 1</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="text-right">
+                    <span class="text-[10px] text-zinc-400 block">Round Moves</span>
+                    <span id="stepCount" class="font-black text-amber-400 text-sm">0</span>
+                </div>
+                <button id="resetLevelBtn" class="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-400 text-xs transition" title="Restart Challenge">
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Target Cards: From ANY entity to ANY entity -->
+        <div class="grid grid-cols-2 gap-3 sm:gap-4 items-center">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col items-center text-center">
+                <span class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Starting Point</span>
+                <div id="startNodeIcon" class="text-2xl mb-1">🎬</div>
+                <div id="startNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">-</div>
+                <span id="startNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-zinc-800 text-zinc-300">MOVIE</span>
+            </div>
+
+            <div class="bg-zinc-900 border border-amber-500/30 rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-16 h-16 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+                <span class="text-[10px] uppercase font-bold text-amber-400 mb-1">Target to Reach</span>
+                <div id="targetNodeIcon" class="text-2xl mb-1">🎯</div>
+                <div id="targetNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">-</div>
+                <span id="targetNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">MOVIE</span>
+            </div>
+        </div>
+
+        <!-- Trail Container -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
+            <span class="text-xs text-zinc-400 block mb-2 font-medium">Chain of Connections:</span>
+            <div id="trailContainer" class="flex flex-wrap items-center gap-2 text-xs">
+                <!-- Trail chips rendered by JS -->
+            </div>
+        </div>
+
+        <!-- Interactive Next Move Selector -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 sm:p-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <label class="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-magnifying-glass text-amber-400"></i> Next Connected Actor, Director, or Movie:
+                </label>
+                <span class="text-[10px] text-zinc-500">Pick below or type</span>
+            </div>
+
+            <div class="relative">
+                <input id="searchInput" type="text" placeholder="Search connected actor, movie or director..."
+                    class="w-full bg-zinc-950 border border-zinc-700 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition">
+                <div id="autocompleteList" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-48 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
+            </div>
+
+            <div>
+                <span class="text-[11px] text-zinc-400 block mb-2">Available Links for current entity:</span>
+                <div id="availableChips" class="flex flex-wrap gap-2 max-h-44 overflow-y-auto custom-scroll p-1">
+                    <!-- Dynamic chips -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Custom Challenge Modal -->
+    <div id="customModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-2xl p-5 max-w-md w-full flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+                <h3 class="font-bold text-sm text-zinc-100 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-amber-400"></i> Create Custom Match
+                </h3>
+                <button id="closeCustomModal" class="text-zinc-500 hover:text-zinc-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <p class="text-xs text-zinc-400">Pick any two entities (actors, directors, or movies) from the database to see if your friends can connect them!</p>
+
+            <div class="flex flex-col gap-3">
+                <div>
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Start From:</label>
+                    <select id="customStartSelect" class="w-full bg-zinc-950 border border-zinc-700 rounded-xl p-2.5 text-xs text-zinc-200 outline-none focus:border-amber-500">
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Connect To (Target):</label>
+                    <select id="customTargetSelect" class="w-full bg-zinc-950 border border-zinc-700 rounded-xl p-2.5 text-xs text-zinc-200 outline-none focus:border-amber-500">
+                    </select>
+                </div>
+            </div>
+
+            <button id="startCustomChallengeBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-black font-bold py-2.5 rounded-xl text-xs transition">
+                Start Custom Match
+            </button>
+        </div>
+    </div>
+
+    <!-- Players & Group Setup Modal -->
+    <div id="playersModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-2xl p-5 max-w-md w-full flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+                <h3 class="font-bold text-sm text-zinc-100 flex items-center gap-2">
+                    <i class="fa-solid fa-users text-amber-400"></i> Manage Group Players
+                </h3>
+                <button id="closePlayersModal" class="text-zinc-500 hover:text-zinc-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div id="playersInputList" class="flex flex-col gap-2">
+                <!-- Dynamically generated player name fields -->
+            </div>
+
+            <div class="flex gap-2">
+                <button id="addPlayerFieldBtn" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2 rounded-xl text-xs transition">
+                    + Add Player
+                </button>
+                <button id="savePlayersBtn" class="flex-1 bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-xl text-xs transition">
+                    Save Group
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Winner Celebration Modal -->
+    <div id="winModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-amber-500/40 rounded-3xl p-6 max-w-sm w-full text-center flex flex-col items-center shadow-2xl">
+            <div class="text-5xl mb-2 animate-bounce">🏆</div>
+            <h2 class="text-xl font-black text-amber-400 mb-1">Connection Complete!</h2>
+            <p id="winPlayerCelebration" class="text-sm font-semibold text-zinc-100 mb-1">Player 1 took the final step!</p>
+            <p id="winSubtext" class="text-xs text-zinc-400 mb-5">Completed in 4 steps.</p>
+
+            <div class="flex flex-col gap-2 w-full">
+                <button id="modalPlayAgainBtn" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2.5 rounded-xl text-xs transition">Play Another Round</button>
+                <button id="modalNewChallengeBtn" class="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2.5 rounded-xl text-xs transition">Choose Custom Names</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Massive Pan-Indian Cinema Database (Hindi, Telugu, Tamil, Kannada, Malayalam)
+        const DB = {
+            movies: {
+                "Jawan": { cast: ["Shah Rukh Khan", "Nayanthara", "Vijay Sethupathi", "Deepika Padukone"], directors: ["Atlee"] },
+                "Pathaan": { cast: ["Shah Rukh Khan", "Deepika Padukone", "John Abraham", "Salman Khan"], directors: ["Siddharth Anand"] },
+                "Tiger 3": { cast: ["Salman Khan", "Katrina Kaif", "Emraan Hashmi", "Shah Rukh Khan"], directors: ["Maneesh Sharma"] },
+                "Fighter": { cast: ["Hrithik Roshan", "Deepika Padukone", "Anil Kapoor"], directors: ["Siddharth Anand"] },
+                "War": { cast: ["Hrithik Roshan", "Tiger Shroff", "Vaani Kapoor"], directors: ["Siddharth Anand"] },
+                "Kalki 2898 AD": { cast: ["Prabhas", "Amitabh Bachchan", "Deepika Padukone", "Kamal Haasan", "Disha Patani"], directors: ["Nag Ashwin"] },
+                "RRR": { cast: ["N. T. Rama Rao Jr.", "Ram Charan", "Alia Bhatt", "Ajay Devgn"], directors: ["S. S. Rajamouli"] },
+                "Baahubali": { cast: ["Prabhas", "Rana Daggubati", "Anushka Shetty", "Tamannaah Bhatia"], directors: ["S. S. Rajamouli"] },
+                "Brahmāstra": { cast: ["Ranbir Kapoor", "Alia Bhatt", "Amitabh Bachchan", "Shah Rukh Khan", "Nagarjuna"], directors: ["Ayan Mukerji"] },
+                "Animal": { cast: ["Ranbir Kapoor", "Rashmika Mandanna", "Anil Kapoor", "Bobby Deol"], directors: ["Sandeep Reddy Vanga"] },
+                "Kabir Singh": { cast: ["Shahid Kapoor", "Kiara Advani"], directors: ["Sandeep Reddy Vanga"] },
+                "Pushpa": { cast: ["Allu Arjun", "Rashmika Mandanna", "Fahadh Faasil"], directors: ["Sukumar"] },
+                "Vikram": { cast: ["Kamal Haasan", "Vijay Sethupathi", "Fahadh Faasil", "Suriya"], directors: ["Lokesh Kanagaraj"] },
+                "Leo": { cast: ["Thalapathy Vijay", "Sanjay Dutt", "Trisha Krishnan", "Arjun Sarja"], directors: ["Lokesh Kanagaraj"] },
+                "Master": { cast: ["Thalapathy Vijay", "Vijay Sethupathi", "Malavika Mohanan"], directors: ["Lokesh Kanagaraj"] },
+                "K.G.F: Chapter 2": { cast: ["Yash", "Sanjay Dutt", "Raveena Tandon", "Srinidhi Shetty"], directors: ["Prashanth Neel"] },
+                "Salaar": { cast: ["Prabhas", "Prithviraj Sukumaran", "Shruti Haasan"], directors: ["Prashanth Neel"] },
+                "Jailer": { cast: ["Rajinikanth", "Mohanlal", "Shiva Rajkumar", "Jackie Shroff", "Tamannaah Bhatia"], directors: ["Nelson Dilipkumar"] },
+                "Bigil": { cast: ["Thalapathy Vijay", "Nayanthara", "Jackie Shroff"], directors: ["Atlee"] }
+            }
+        };
+
+        // Players state
+        let players = ["Player 1", "Player 2"];
+        let currentPlayerIndex = 0;
+
+        // Challenge state
+        let currentChallenge = {
+            start: { name: "Shah Rukh Khan", type: "actor" },
+            target: { name: "Kamal Haasan", type: "actor" }
+        };
+        let currentTrail = [];
+
+        function init() {
+            populateCustomSelects();
+            renderPlayerInputs();
+            setupSearch();
+            setupEventListeners();
+            startChallenge(currentChallenge.start, currentChallenge.target);
+        }
+
+        function setupEventListeners() {
+            document.getElementById('groupSetupBtn').onclick = () => document.getElementById('playersModal').classList.remove('hidden');
+            document.getElementById('closePlayersModal').onclick = () => document.getElementById('playersModal').classList.add('hidden');
+            document.getElementById('customChallengeBtn').onclick = () => document.getElementById('customModal').classList.remove('hidden');
+            document.getElementById('closeCustomModal').onclick = () => document.getElementById('customModal').classList.add('hidden');
+
+            document.getElementById('addPlayerFieldBtn').onclick = () => {
+                if (players.length < 6) {
+                    players.push(`Player ${players.length + 1}`);
+                    renderPlayerInputs();
+                } else {
+                    alert("Maximum 6 players allowed.");
+                }
+            };
+
+            document.getElementById('savePlayersBtn').onclick = () => {
+                const inputs = document.querySelectorAll('.player-input-val');
+                const newPlayers = [];
+                inputs.forEach((inp, idx) => {
+                    const name = inp.value.trim() || `Player ${idx + 1}`;
+                    newPlayers.push(name);
+                });
+                if (newPlayers.length >= 2) {
+                    players = newPlayers;
+                    document.getElementById('playerCountLabel').textContent = players.length;
+                    document.getElementById('playersModal').classList.add('hidden');
+                    updateTurnIndicator();
+                } else {
+                    alert("Please enter at least 2 players!");
+                }
+            };
+
+            document.getElementById('startCustomChallengeBtn').onclick = () => {
+                const startRaw = document.getElementById('customStartSelect').value;
+                const targetRaw = document.getElementById('customTargetSelect').value;
+                if (startRaw === targetRaw) {
+                    alert("Start and Target cannot be identical!");
+                    return;
+                }
+                const [startType, startName] = startRaw.split(':::');
+                const [targetType, targetName] = targetRaw.split(':::');
+
+                document.getElementById('customModal').classList.add('hidden');
+                startChallenge({ name: startName, type: startType }, { name: targetName, type: targetType });
+            };
+
+            document.getElementById('resetLevelBtn').onclick = () => {
+                startChallenge(currentChallenge.start, currentChallenge.target);
+            };
+
+            document.getElementById('modalPlayAgainBtn').onclick = () => {
+                document.getElementById('winModal').classList.add('hidden');
+                startChallenge(currentChallenge.start, currentChallenge.target);
+            };
+
+            document.getElementById('modalNewChallengeBtn').onclick = () => {
+                document.getElementById('winModal').classList.add('hidden');
+                document.getElementById('customModal').classList.remove('hidden');
+            };
+        }
+
+        function renderPlayerInputs() {
+            const list = document.getElementById('playersInputList');
+            list.innerHTML = '';
+            players.forEach((p, idx) => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-2';
+                div.innerHTML = `
+                    <span class="text-xs font-bold text-amber-400 w-6">#${idx + 1}</span>
+                    <input type="text" value="${p}" class="player-input-val flex-1 bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
+                    ${players.length > 2 ? `<button onclick="removePlayer(${idx})" class="text-zinc-500 hover:text-rose-400 text-xs px-2"><i class="fa-solid fa-trash"></i></button>` : ''}
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        window.removePlayer = function(index) {
+            if (players.length > 2) {
+                players.splice(index, 1);
+                renderPlayerInputs();
+            }
+        };
+
+        function populateCustomSelects() {
+            const allItems = getAllEntities();
+            const startSelect = document.getElementById('customStartSelect');
+            const targetSelect = document.getElementById('customTargetSelect');
+
+            startSelect.innerHTML = '';
+            targetSelect.innerHTML = '';
+
+            allItems.forEach(item => {
+                const opt1 = document.createElement('option');
+                opt1.value = `${item.type}:::${item.name}`;
+                opt1.textContent = `${item.type.toUpperCase()}: ${item.name}`;
+                startSelect.appendChild(opt1);
+
+                const opt2 = document.createElement('option');
+                opt2.value = `${item.type}:::${item.name}`;
+                opt2.textContent = `${item.type.toUpperCase()}: ${item.name}`;
+                targetSelect.appendChild(opt2);
+            });
+
+            // Default to popular pair
+            startSelect.value = "actor:::Shah Rukh Khan";
+            targetSelect.value = "actor:::Kamal Haasan";
+        }
+
+        function getAllEntities() {
+            const items = [];
+            const actors = new Set();
+            const directors = new Set();
+
+            for (const [title, details] of Object.entries(DB.movies)) {
+                items.push({ name: title, type: "movie" });
+                details.cast.forEach(a => actors.add(a));
+                details.directors.forEach(d => directors.add(d));
+            }
+            actors.forEach(a => items.push({ name: a, type: "actor" }));
+            directors.forEach(d => items.push({ name: d, type: "director" }));
+            return items.sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        function startChallenge(start, target) {
+            currentChallenge = { start, target };
+            currentTrail = [start];
+            currentPlayerIndex = 0;
+
+            document.getElementById('startNodeTitle').textContent = start.name;
+            document.getElementById('startNodeType').textContent = start.type.toUpperCase();
+            document.getElementById('startNodeIcon').textContent = start.type === 'movie' ? '🎬' : start.type === 'director' ? '🎥' : '👤';
+
+            document.getElementById('targetNodeTitle').textContent = target.name;
+            document.getElementById('targetNodeType').textContent = target.type.toUpperCase();
+            document.getElementById('targetNodeIcon').textContent = target.type === 'movie' ? '🎬' : target.type === 'director' ? '🎥' : '👤';
+
+            updateTurnIndicator();
+            updateTrailAndChips();
+        }
+
+        function updateTurnIndicator() {
+            document.getElementById('turnPlayerNum').textContent = currentPlayerIndex + 1;
+            document.getElementById('turnPlayerName').textContent = players[currentPlayerIndex];
+        }
+
+        function nextTurn() {
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            updateTurnIndicator();
+        }
+
+        function updateTrailAndChips() {
+            const last = currentTrail[currentTrail.length - 1];
+            document.getElementById('stepCount').textContent = currentTrail.length - 1;
+
+            // Render Trail
+            const trailEl = document.getElementById('trailContainer');
+            trailEl.innerHTML = '';
+            currentTrail.forEach((node, i) => {
+                const span = document.createElement('span');
+                const badgeColor = node.type === 'movie' 
+                    ? 'bg-zinc-800 text-zinc-200 border-zinc-700' 
+                    : node.type === 'director' 
+                    ? 'bg-emerald-950/70 text-emerald-300 border-emerald-800' 
+                    : 'bg-amber-950/70 text-amber-300 border-amber-800';
+                span.className = `px-2.5 py-1 rounded-lg border ${badgeColor} font-medium flex items-center gap-1.5`;
+                span.innerHTML = `${node.type === 'movie' ? '🎬' : node.type === 'director' ? '🎥' : '👤'} <span>${node.name}</span>`;
+                trailEl.appendChild(span);
+
+                if (i < currentTrail.length - 1) {
+                    const arrow = document.createElement('i');
+                    arrow.className = 'fa-solid fa-chevron-right text-zinc-600 text-[10px]';
+                    trailEl.appendChild(arrow);
+                }
+            });
+
+            // Check Win Condition
+            if (last.name.toLowerCase() === currentChallenge.target.name.toLowerCase()) {
+                handleWin();
+                return;
+            }
+
+            // Get Next Available Options
+            const options = getAvailableConnections(last);
+            renderChips(options);
+        }
+
+        function getAvailableConnections(node) {
+            const list = [];
+            if (node.type === 'movie') {
+                const data = DB.movies[node.name];
+                if (data) {
+                    data.cast.forEach(actor => list.push({ name: actor, type: 'actor' }));
+                    data.directors.forEach(dir => list.push({ name: dir, type: 'director' }));
+                }
+            } else {
+                for (const [title, details] of Object.entries(DB.movies)) {
+                    if (node.type === 'actor' && details.cast.includes(node.name)) {
+                        list.push({ name: title, type: 'movie' });
+                    }
+                    if (node.type === 'director' && details.directors.includes(node.name)) {
+                        list.push({ name: title, type: 'movie' });
+                    }
+                }
+            }
+            return list;
+        }
+
+        function renderChips(options) {
+            const container = document.getElementById('availableChips');
+            container.innerHTML = '';
+            if (!options.length) {
+                container.innerHTML = '<span class="text-xs text-zinc-500">No further direct connections found. Try another path!</span>';
+                return;
+            }
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                const style = opt.type === 'movie' 
+                    ? 'bg-zinc-800 text-zinc-200 border-zinc-700 hover:border-amber-400' 
+                    : opt.type === 'director' 
+                    ? 'bg-emerald-950/60 text-emerald-300 border-emerald-800 hover:border-emerald-400' 
+                    : 'bg-amber-950/60 text-amber-300 border-amber-800 hover:border-amber-400';
+                
+                btn.className = `px-3 py-1.5 rounded-xl border text-xs font-medium cursor-pointer transition ${style}`;
+                btn.innerHTML = `${opt.type === 'movie' ? '🎬' : opt.type === 'director' ? '🎥' : '👤'} ${opt.name}`;
+                btn.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    makeMove(opt);
+                });
+                container.appendChild(btn);
+            });
+        }
+
+        function makeMove(choice) {
+            currentTrail.push(choice);
+            document.getElementById('searchInput').value = '';
+            document.getElementById('autocompleteList').classList.add('hidden');
+            
+            // Check win before changing turn
+            if (choice.name.toLowerCase() === currentChallenge.target.name.toLowerCase()) {
+                updateTrailAndChips();
+                return;
+            }
+
+            nextTurn();
+            updateTrailAndChips();
+        }
+
+        function handleWin() {
+            document.getElementById('winPlayerCelebration').textContent = `${players[currentPlayerIndex]} connected the final bridge! 🎉`;
+            document.getElementById('winSubtext').textContent = `The team connected them in ${currentTrail.length - 1} total steps!`;
+            document.getElementById('winModal').classList.remove('hidden');
+        }
+
+        function setupSearch() {
+            const input = document.getElementById('searchInput');
+            const autoList = document.getElementById('autocompleteList');
+
+            input.addEventListener('input', () => {
+                const val = input.value.trim().toLowerCase();
+                if (!val) {
+                    autoList.classList.add('hidden');
+                    return;
+                }
+                const last = currentTrail[currentTrail.length - 1];
+                const validOptions = getAvailableConnections(last);
+                const matches = validOptions.filter(o => o.name.toLowerCase().includes(val));
+
+                autoList.innerHTML = '';
+                if (matches.length > 0) {
+                    matches.forEach(m => {
+                        const div = document.createElement('div');
+                        div.className = 'px-3 py-2 text-xs hover:bg-zinc-800 cursor-pointer text-zinc-200 flex items-center justify-between';
+                        div.innerHTML = `<span>${m.name}</span> <span class="text-[10px] text-zinc-500 uppercase">${m.type}</span>`;
+                        div.addEventListener('mousedown', (e) => {
+                            e.preventDefault();
+                            makeMove(m);
+                        });
+                        autoList.appendChild(div);
+                    });
+                    autoList.classList.remove('hidden');
+                } else {
+                    autoList.classList.add('hidden');
+                }
+            });
+
+            input.addEventListener('blur', () => {
+                setTimeout(() => autoList.classList.add('hidden'), 150);
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
