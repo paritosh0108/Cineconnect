@@ -22,12 +22,15 @@
             <span class="text-2xl">🎬</span>
             <div>
                 <h1 class="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">CineConnect Live</h1>
-                <p class="text-[10px] text-zinc-400">All Indian Cinema via Live Database</p>
+                <p class="text-[10px] text-zinc-400">100% Automated via Live Cinema API</p>
             </div>
         </div>
         <div class="flex items-center gap-2">
             <button id="customChallengeBtn" class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 text-xs font-semibold transition flex items-center gap-1.5">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> Custom Match
+            </button>
+            <button id="randomPairBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-shuffle"></i> Random
             </button>
             <button id="groupSetupBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
                 <i class="fa-solid fa-users"></i> (<span id="playerCountLabel">2</span>)
@@ -68,7 +71,7 @@
             <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col items-center text-center">
                 <span class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Starting Point</span>
                 <div id="startNodeIcon" class="text-2xl mb-1">👤</div>
-                <div id="startNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">Dilip Kumar</div>
+                <div id="startNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">-</div>
                 <span id="startNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-zinc-800 text-zinc-300">ACTOR</span>
             </div>
 
@@ -76,7 +79,7 @@
                 <div class="absolute -right-6 -top-6 w-16 h-16 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
                 <span class="text-[10px] uppercase font-bold text-amber-400 mb-1">Target to Reach</span>
                 <div id="targetNodeIcon" class="text-2xl mb-1">🎯</div>
-                <div id="targetNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">Shah Rukh Khan</div>
+                <div id="targetNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">-</div>
                 <span id="targetNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">ACTOR</span>
             </div>
         </div>
@@ -94,18 +97,18 @@
                     <i class="fa-solid fa-magnifying-glass text-amber-400"></i> Next Step:
                 </label>
                 <span id="loadingIndicator" class="hidden text-[10px] text-amber-400 animate-pulse flex items-center gap-1">
-                    <i class="fa-solid fa-spinner fa-spin"></i> Fetching live data...
+                    <i class="fa-solid fa-spinner fa-spin"></i> Fetching live from TMDB...
                 </span>
             </div>
 
             <div class="relative">
-                <input id="searchInput" type="text" autocomplete="off" placeholder="Type any movie or actor name..."
+                <input id="searchInput" type="text" autocomplete="off" placeholder="Type name..."
                     class="w-full bg-zinc-950 border border-zinc-700 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition">
                 <div id="autocompleteList" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-56 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
             </div>
 
             <div>
-                <span id="chipsSectionTitle" class="text-[11px] text-zinc-400 block mb-2 font-medium">Connected Options:</span>
+                <span id="chipsSectionTitle" class="text-[11px] text-zinc-400 block mb-2 font-medium">Auto-Fetched Connections:</span>
                 <div id="availableChips" class="flex flex-wrap gap-2 max-h-56 overflow-y-auto custom-scroll p-1"></div>
             </div>
         </div>
@@ -117,31 +120,31 @@
         <div class="bg-zinc-900 border border-zinc-700 rounded-2xl p-5 max-w-md w-full flex flex-col gap-4">
             <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
                 <h3 class="font-bold text-sm text-zinc-100 flex items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Custom Match (Search Any Actor)
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Search Any 2 People / Movies Live
                 </h3>
                 <button id="closeCustomModal" class="text-zinc-500 hover:text-zinc-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
-            <p class="text-xs text-zinc-400">Search any 2 actors/actresses across the entire Indian film industry history to start a match!</p>
+            <p class="text-xs text-zinc-400">Type any actor, actress, director, or movie from any decade to search the live global movie database!</p>
 
             <div class="flex flex-col gap-3">
                 <div class="relative">
-                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Start From (Type actor name):</label>
-                    <input id="customStartInput" type="text" autocomplete="off" placeholder="e.g. Raj Kapoor, Chiranjeevi, Mohanlal..."
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Start From (Type name):</label>
+                    <input id="customStartInput" type="text" autocomplete="off" placeholder="Type actor or movie name..."
                         class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
                     <div id="customStartSuggest" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-44 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
                 </div>
 
                 <div class="relative">
-                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Target to Reach (Type actor name):</label>
-                    <input id="customTargetInput" type="text" autocomplete="off" placeholder="e.g. Deepika Padukone, Allu Arjun, Vijay..."
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Target to Reach (Type name):</label>
+                    <input id="customTargetInput" type="text" autocomplete="off" placeholder="Type target actor or movie..."
                         class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
                     <div id="customTargetSuggest" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-44 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
                 </div>
             </div>
 
             <button id="startCustomChallengeBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-black font-bold py-2.5 rounded-xl text-xs transition">
-                Start Custom Match
+                Start Live Match
             </button>
         </div>
     </div>
@@ -179,7 +182,7 @@
 
             <div class="flex flex-col gap-2 w-full">
                 <button id="modalPlayNextBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-black font-bold py-2.5 rounded-xl text-xs transition">
-                    <i class="fa-solid fa-play"></i> Play Another Pair
+                    <i class="fa-solid fa-shuffle"></i> Play Random Pair
                 </button>
                 <button id="modalCustomBtn" class="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2.5 rounded-xl text-xs transition">
                     Custom Match
@@ -189,18 +192,27 @@
     </div>
 
     <script>
-        // Free TMDB Public API Gateway for Indian Cinema
+        // Automatic live TMDB API configuration
         const API_KEY = "e547e17d4e91f3e62a571655cd1ccaff";
         const BASE_URL = "https://api.themoviedb.org/3";
+
+        // Curated popular starters for instant 1-click play across decades
+        const CURATED_PAIRS = [
+            { start: { id: 85375, name: "Dilip Kumar", type: "actor" }, target: { id: 35742, name: "Shah Rukh Khan", type: "actor" } },
+            { start: { id: 85386, name: "Raj Kapoor", type: "actor" }, target: { id: 85348, name: "Ranbir Kapoor", type: "actor" } },
+            { start: { id: 53579, name: "Amitabh Bachchan", type: "actor" }, target: { id: 71871, name: "Rajinikanth", type: "actor" } },
+            { start: { id: 73421, name: "Kamal Haasan", type: "actor" }, target: { id: 35742, name: "Shah Rukh Khan", type: "actor" } },
+            { start: { id: 76541, name: "Prabhas", type: "actor" }, target: { id: 53579, name: "Amitabh Bachchan", type: "actor" } },
+            { start: { id: 78586, name: "Allu Arjun", type: "actor" }, target: { id: 85348, name: "Ranbir Kapoor", type: "actor" } },
+            { start: { id: 86782, name: "Thalapathy Vijay", type: "actor" }, target: { id: 3223, name: "Salman Khan", type: "actor" } },
+            { start: { id: 52969, name: "Aamir Khan", type: "actor" }, target: { id: 121544, name: "Yash", type: "actor" } },
+            { start: { id: 58872, name: "Fahadh Faasil", type: "actor" }, target: { id: 78749, name: "Hrithik Roshan", type: "actor" } }
+        ];
 
         let players = ["Player 1", "Player 2"];
         let currentPlayerIndex = 0;
         let roundsCleared = 0;
-
-        let currentChallenge = {
-            start: { id: 85375, name: "Dilip Kumar", type: "actor" },
-            target: { id: 35742, name: "Shah Rukh Khan", type: "actor" }
-        };
+        let currentChallenge = CURATED_PAIRS[0];
 
         let currentTrail = [];
         let currentAvailableOptions = [];
@@ -223,6 +235,8 @@
                 document.getElementById('customModal').classList.remove('hidden');
             };
             document.getElementById('closeCustomModal').onclick = () => document.getElementById('customModal').classList.add('hidden');
+
+            document.getElementById('randomPairBtn').onclick = loadRandomPair;
 
             document.getElementById('addPlayerFieldBtn').onclick = () => {
                 if (players.length < 8) {
@@ -252,13 +266,18 @@
 
             document.getElementById('modalPlayNextBtn').onclick = () => {
                 document.getElementById('winModal').classList.add('hidden');
-                document.getElementById('customModal').classList.remove('hidden');
+                loadRandomPair();
             };
 
             document.getElementById('modalCustomBtn').onclick = () => {
                 document.getElementById('winModal').classList.add('hidden');
                 document.getElementById('customModal').classList.remove('hidden');
             };
+        }
+
+        function loadRandomPair() {
+            const nextPair = CURATED_PAIRS[Math.floor(Math.random() * CURATED_PAIRS.length)];
+            startChallenge(nextPair.start, nextPair.target);
         }
 
         function renderPlayerInputs() {
@@ -321,11 +340,11 @@
             if (last.type === 'actor') {
                 searchLabel.innerHTML = `<i class="fa-solid fa-film text-amber-400"></i> Pick any Movie starring <span class="text-amber-400 font-bold ml-1">${last.name}</span>:`;
                 searchInput.placeholder = `Search any movie featuring ${last.name}...`;
-                chipsTitle.innerHTML = `All Movies of <strong>${last.name}</strong>:`;
+                chipsTitle.innerHTML = `Live Filmography of <strong>${last.name}</strong>:`;
             } else {
                 searchLabel.innerHTML = `<i class="fa-solid fa-users text-amber-400"></i> Pick Cast or Director from <span class="text-amber-400 font-bold ml-1">${last.name}</span>:`;
                 searchInput.placeholder = `Search cast or director from ${last.name}...`;
-                chipsTitle.innerHTML = `Cast & Director of <strong>${last.name}</strong>:`;
+                chipsTitle.innerHTML = `Cast & Crew of <strong>${last.name}</strong>:`;
             }
 
             // Render Trail
@@ -350,15 +369,13 @@
             });
 
             // Check Win Condition
-            if (last.id && currentChallenge.target.id && last.id === currentChallenge.target.id) {
-                handleWin();
-                return;
-            } else if (last.name.toLowerCase() === currentChallenge.target.name.toLowerCase()) {
+            if ((last.id && currentChallenge.target.id && last.id === currentChallenge.target.id) || 
+                (last.name.toLowerCase() === currentChallenge.target.name.toLowerCase())) {
                 handleWin();
                 return;
             }
 
-            // Fetch Live Connections
+            // Fetch Live Connections from API
             toggleLoading(true);
             currentAvailableOptions = await fetchLiveConnections(last);
             toggleLoading(false);
@@ -374,7 +391,7 @@
         async function fetchLiveConnections(node) {
             try {
                 if (node.type === 'actor' || node.type === 'director') {
-                    // Fetch every movie they acted in or directed
+                    // Fetch real-time filmography
                     const res = await fetch(`${BASE_URL}/person/${node.id}/movie_credits?api_key=${API_KEY}`);
                     const data = await res.json();
                     const movies = [];
@@ -396,13 +413,13 @@
 
                     return movies.sort((a, b) => (b.year || 0) - (a.year || 0));
                 } else {
-                    // Fetch cast & directors of this movie
+                    // Fetch real-time cast and crew
                     const res = await fetch(`${BASE_URL}/movie/${node.id}/credits?api_key=${API_KEY}`);
                     const data = await res.json();
                     const people = [];
                     const seen = new Set();
 
-                    (data.cast || []).slice(0, 30).forEach(c => {
+                    (data.cast || []).slice(0, 35).forEach(c => {
                         if (c.name && !seen.has(c.id)) {
                             seen.add(c.id);
                             people.push({ id: c.id, name: c.name, type: 'actor' });
@@ -419,7 +436,7 @@
                     return people;
                 }
             } catch (err) {
-                console.error(err);
+                console.error("API error:", err);
                 return [];
             }
         }
@@ -428,11 +445,11 @@
             const container = document.getElementById('availableChips');
             container.innerHTML = '';
             if (!options.length) {
-                container.innerHTML = '<span class="text-xs text-zinc-500">No connections returned from cloud. Try searching directly above!</span>';
+                container.innerHTML = '<span class="text-xs text-zinc-500">No connections returned. Type in the search box above!</span>';
                 return;
             }
 
-            options.slice(0, 40).forEach(opt => {
+            options.slice(0, 45).forEach(opt => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 const style = opt.type === 'movie' 
@@ -442,7 +459,7 @@
                     : 'bg-amber-950/60 text-amber-300 border-amber-800 hover:border-amber-400';
                 
                 btn.className = `px-3 py-1.5 rounded-xl border text-xs font-medium cursor-pointer transition ${style}`;
-                btn.innerHTML = `${opt.type === 'movie' ? '🎬' : '👤'} ${opt.name} ${opt.year ? `<span class="opacity-60 text-[10px]">(${opt.year})</span>` : ''}`;
+                btn.innerHTML = `${opt.type === 'movie' ? '🎬' : opt.type === 'director' ? '🎥' : '👤'} ${opt.name} ${opt.year ? `<span class="opacity-60 text-[10px]">(${opt.year})</span>` : ''}`;
                 btn.addEventListener('mousedown', (e) => {
                     e.preventDefault();
                     makeMove(opt);
@@ -456,7 +473,8 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('autocompleteList').classList.add('hidden');
             
-            if (choice.id === currentChallenge.target.id || choice.name.toLowerCase() === currentChallenge.target.name.toLowerCase()) {
+            if ((choice.id && currentChallenge.target.id && choice.id === currentChallenge.target.id) || 
+                (choice.name.toLowerCase() === currentChallenge.target.name.toLowerCase())) {
                 await updateTrailAndChips();
                 return;
             }
@@ -468,12 +486,11 @@
         function handleWin() {
             roundsCleared++;
             document.getElementById('totalClearedCount').textContent = roundsCleared;
-            document.getElementById('winPlayerCelebration').textContent = `${players[currentPlayerIndex]} connected the final bridge! 🎉`;
+            document.getElementById('winPlayerCelebration').textContent = `${players[currentPlayerIndex]} completed the connection! 🎉`;
             document.getElementById('winSubtext').textContent = `The team successfully connected them in ${currentTrail.length - 1} steps!`;
             document.getElementById('winModal').classList.remove('hidden');
         }
 
-        // Search within available connections
         function setupSearch() {
             const input = document.getElementById('searchInput');
             const autoList = document.getElementById('autocompleteList');
@@ -509,21 +526,20 @@
             });
         }
 
-        // Live Cloud Search for Custom Matches (Find any actor in Indian history)
         function setupCustomInputsAutoSuggest() {
             let startSelected = null;
             let targetSelected = null;
 
-            bindLivePersonSearch(document.getElementById('customStartInput'), document.getElementById('customStartSuggest'), (p) => {
-                startSelected = p;
+            bindLiveGlobalSearch(document.getElementById('customStartInput'), document.getElementById('customStartSuggest'), (item) => {
+                startSelected = item;
             });
-            bindLivePersonSearch(document.getElementById('customTargetInput'), document.getElementById('customTargetSuggest'), (p) => {
-                targetSelected = p;
+            bindLiveGlobalSearch(document.getElementById('customTargetInput'), document.getElementById('customTargetSuggest'), (item) => {
+                targetSelected = item;
             });
 
             document.getElementById('startCustomChallengeBtn').onclick = () => {
                 if (!startSelected || !targetSelected) {
-                    alert("Please select both actors from the suggestion dropdown list!");
+                    alert("Please select both items from the suggestion dropdown list!");
                     return;
                 }
                 if (startSelected.id === targetSelected.id) {
@@ -532,14 +548,11 @@
                 }
 
                 document.getElementById('customModal').classList.add('hidden');
-                startChallenge(
-                    { id: startSelected.id, name: startSelected.name, type: 'actor' },
-                    { id: targetSelected.id, name: targetSelected.name, type: 'actor' }
-                );
+                startChallenge(startSelected, targetSelected);
             };
         }
 
-        function bindLivePersonSearch(inputEl, suggestEl, onSelect) {
+        function bindLiveGlobalSearch(inputEl, suggestEl, onSelect) {
             let debounceTimer;
             inputEl.addEventListener('input', () => {
                 clearTimeout(debounceTimer);
@@ -551,19 +564,25 @@
 
                 debounceTimer = setTimeout(async () => {
                     try {
-                        const res = await fetch(`${BASE_URL}/search/person?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
+                        const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
                         const data = await res.json();
                         suggestEl.innerHTML = '';
 
-                        if (data.results && data.results.length > 0) {
-                            data.results.slice(0, 8).forEach(p => {
+                        const validResults = (data.results || []).filter(r => r.media_type === 'person' || r.media_type === 'movie');
+
+                        if (validResults.length > 0) {
+                            validResults.slice(0, 10).forEach(r => {
+                                const isMovie = r.media_type === 'movie';
+                                const title = isMovie ? r.title : r.name;
+                                const sub = isMovie ? (r.release_date || '').split('-')[0] : (r.known_for_department || 'Artist');
+                                
                                 const row = document.createElement('div');
                                 row.className = 'px-3 py-2 text-xs hover:bg-zinc-800 cursor-pointer text-zinc-200 flex items-center justify-between border-b border-zinc-900 last:border-none';
-                                row.innerHTML = `<span>${p.name}</span> <span class="text-[10px] text-zinc-500 uppercase">${p.known_for_department || 'Actor'}</span>`;
+                                row.innerHTML = `<span>${isMovie ? '🎬' : '👤'} ${title} <span class="text-zinc-500 text-[10px]">(${sub})</span></span> <span class="text-[10px] text-zinc-500 uppercase">${isMovie ? 'Movie' : 'Person'}</span>`;
                                 row.addEventListener('mousedown', (e) => {
                                     e.preventDefault();
-                                    inputEl.value = p.name;
-                                    onSelect(p);
+                                    inputEl.value = title;
+                                    onSelect({ id: r.id, name: title, type: isMovie ? 'movie' : 'actor' });
                                     suggestEl.classList.add('hidden');
                                 });
                                 suggestEl.appendChild(row);
@@ -611,12 +630,15 @@
             <span class="text-2xl">🎬</span>
             <div>
                 <h1 class="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">CineConnect Live</h1>
-                <p class="text-[10px] text-zinc-400">All Indian Cinema via Live Database</p>
+                <p class="text-[10px] text-zinc-400">100% Automated via Live Cinema API</p>
             </div>
         </div>
         <div class="flex items-center gap-2">
             <button id="customChallengeBtn" class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 text-xs font-semibold transition flex items-center gap-1.5">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> Custom Match
+            </button>
+            <button id="randomPairBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-shuffle"></i> Random
             </button>
             <button id="groupSetupBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
                 <i class="fa-solid fa-users"></i> (<span id="playerCountLabel">2</span>)
@@ -657,7 +679,7 @@
             <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col items-center text-center">
                 <span class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Starting Point</span>
                 <div id="startNodeIcon" class="text-2xl mb-1">👤</div>
-                <div id="startNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">Dilip Kumar</div>
+                <div id="startNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">-</div>
                 <span id="startNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-zinc-800 text-zinc-300">ACTOR</span>
             </div>
 
@@ -665,7 +687,7 @@
                 <div class="absolute -right-6 -top-6 w-16 h-16 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
                 <span class="text-[10px] uppercase font-bold text-amber-400 mb-1">Target to Reach</span>
                 <div id="targetNodeIcon" class="text-2xl mb-1">🎯</div>
-                <div id="targetNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">Shah Rukh Khan</div>
+                <div id="targetNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">-</div>
                 <span id="targetNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">ACTOR</span>
             </div>
         </div>
@@ -683,18 +705,18 @@
                     <i class="fa-solid fa-magnifying-glass text-amber-400"></i> Next Step:
                 </label>
                 <span id="loadingIndicator" class="hidden text-[10px] text-amber-400 animate-pulse flex items-center gap-1">
-                    <i class="fa-solid fa-spinner fa-spin"></i> Fetching live data...
+                    <i class="fa-solid fa-spinner fa-spin"></i> Fetching live from TMDB...
                 </span>
             </div>
 
             <div class="relative">
-                <input id="searchInput" type="text" autocomplete="off" placeholder="Type any movie or actor name..."
+                <input id="searchInput" type="text" autocomplete="off" placeholder="Type name..."
                     class="w-full bg-zinc-950 border border-zinc-700 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition">
                 <div id="autocompleteList" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-56 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
             </div>
 
             <div>
-                <span id="chipsSectionTitle" class="text-[11px] text-zinc-400 block mb-2 font-medium">Connected Options:</span>
+                <span id="chipsSectionTitle" class="text-[11px] text-zinc-400 block mb-2 font-medium">Auto-Fetched Connections:</span>
                 <div id="availableChips" class="flex flex-wrap gap-2 max-h-56 overflow-y-auto custom-scroll p-1"></div>
             </div>
         </div>
@@ -706,31 +728,31 @@
         <div class="bg-zinc-900 border border-zinc-700 rounded-2xl p-5 max-w-md w-full flex flex-col gap-4">
             <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
                 <h3 class="font-bold text-sm text-zinc-100 flex items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Custom Match (Search Any Actor)
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Search Any 2 People / Movies Live
                 </h3>
                 <button id="closeCustomModal" class="text-zinc-500 hover:text-zinc-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
-            <p class="text-xs text-zinc-400">Search any 2 actors/actresses across the entire Indian film industry history to start a match!</p>
+            <p class="text-xs text-zinc-400">Type any actor, actress, director, or movie from any decade to search the live global movie database!</p>
 
             <div class="flex flex-col gap-3">
                 <div class="relative">
-                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Start From (Type actor name):</label>
-                    <input id="customStartInput" type="text" autocomplete="off" placeholder="e.g. Raj Kapoor, Chiranjeevi, Mohanlal..."
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Start From (Type name):</label>
+                    <input id="customStartInput" type="text" autocomplete="off" placeholder="Type actor or movie name..."
                         class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
                     <div id="customStartSuggest" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-44 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
                 </div>
 
                 <div class="relative">
-                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Target to Reach (Type actor name):</label>
-                    <input id="customTargetInput" type="text" autocomplete="off" placeholder="e.g. Deepika Padukone, Allu Arjun, Vijay..."
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Target to Reach (Type name):</label>
+                    <input id="customTargetInput" type="text" autocomplete="off" placeholder="Type target actor or movie..."
                         class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
                     <div id="customTargetSuggest" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-44 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
                 </div>
             </div>
 
             <button id="startCustomChallengeBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-black font-bold py-2.5 rounded-xl text-xs transition">
-                Start Custom Match
+                Start Live Match
             </button>
         </div>
     </div>
@@ -768,7 +790,7 @@
 
             <div class="flex flex-col gap-2 w-full">
                 <button id="modalPlayNextBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-black font-bold py-2.5 rounded-xl text-xs transition">
-                    <i class="fa-solid fa-play"></i> Play Another Pair
+                    <i class="fa-solid fa-shuffle"></i> Play Random Pair
                 </button>
                 <button id="modalCustomBtn" class="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2.5 rounded-xl text-xs transition">
                     Custom Match
@@ -778,18 +800,27 @@
     </div>
 
     <script>
-        // Free TMDB Public API Gateway for Indian Cinema
+        // Automatic live TMDB API configuration
         const API_KEY = "e547e17d4e91f3e62a571655cd1ccaff";
         const BASE_URL = "https://api.themoviedb.org/3";
+
+        // Curated popular starters for instant 1-click play across decades
+        const CURATED_PAIRS = [
+            { start: { id: 85375, name: "Dilip Kumar", type: "actor" }, target: { id: 35742, name: "Shah Rukh Khan", type: "actor" } },
+            { start: { id: 85386, name: "Raj Kapoor", type: "actor" }, target: { id: 85348, name: "Ranbir Kapoor", type: "actor" } },
+            { start: { id: 53579, name: "Amitabh Bachchan", type: "actor" }, target: { id: 71871, name: "Rajinikanth", type: "actor" } },
+            { start: { id: 73421, name: "Kamal Haasan", type: "actor" }, target: { id: 35742, name: "Shah Rukh Khan", type: "actor" } },
+            { start: { id: 76541, name: "Prabhas", type: "actor" }, target: { id: 53579, name: "Amitabh Bachchan", type: "actor" } },
+            { start: { id: 78586, name: "Allu Arjun", type: "actor" }, target: { id: 85348, name: "Ranbir Kapoor", type: "actor" } },
+            { start: { id: 86782, name: "Thalapathy Vijay", type: "actor" }, target: { id: 3223, name: "Salman Khan", type: "actor" } },
+            { start: { id: 52969, name: "Aamir Khan", type: "actor" }, target: { id: 121544, name: "Yash", type: "actor" } },
+            { start: { id: 58872, name: "Fahadh Faasil", type: "actor" }, target: { id: 78749, name: "Hrithik Roshan", type: "actor" } }
+        ];
 
         let players = ["Player 1", "Player 2"];
         let currentPlayerIndex = 0;
         let roundsCleared = 0;
-
-        let currentChallenge = {
-            start: { id: 85375, name: "Dilip Kumar", type: "actor" },
-            target: { id: 35742, name: "Shah Rukh Khan", type: "actor" }
-        };
+        let currentChallenge = CURATED_PAIRS[0];
 
         let currentTrail = [];
         let currentAvailableOptions = [];
@@ -812,6 +843,8 @@
                 document.getElementById('customModal').classList.remove('hidden');
             };
             document.getElementById('closeCustomModal').onclick = () => document.getElementById('customModal').classList.add('hidden');
+
+            document.getElementById('randomPairBtn').onclick = loadRandomPair;
 
             document.getElementById('addPlayerFieldBtn').onclick = () => {
                 if (players.length < 8) {
@@ -841,13 +874,18 @@
 
             document.getElementById('modalPlayNextBtn').onclick = () => {
                 document.getElementById('winModal').classList.add('hidden');
-                document.getElementById('customModal').classList.remove('hidden');
+                loadRandomPair();
             };
 
             document.getElementById('modalCustomBtn').onclick = () => {
                 document.getElementById('winModal').classList.add('hidden');
                 document.getElementById('customModal').classList.remove('hidden');
             };
+        }
+
+        function loadRandomPair() {
+            const nextPair = CURATED_PAIRS[Math.floor(Math.random() * CURATED_PAIRS.length)];
+            startChallenge(nextPair.start, nextPair.target);
         }
 
         function renderPlayerInputs() {
@@ -910,11 +948,11 @@
             if (last.type === 'actor') {
                 searchLabel.innerHTML = `<i class="fa-solid fa-film text-amber-400"></i> Pick any Movie starring <span class="text-amber-400 font-bold ml-1">${last.name}</span>:`;
                 searchInput.placeholder = `Search any movie featuring ${last.name}...`;
-                chipsTitle.innerHTML = `All Movies of <strong>${last.name}</strong>:`;
+                chipsTitle.innerHTML = `Live Filmography of <strong>${last.name}</strong>:`;
             } else {
                 searchLabel.innerHTML = `<i class="fa-solid fa-users text-amber-400"></i> Pick Cast or Director from <span class="text-amber-400 font-bold ml-1">${last.name}</span>:`;
                 searchInput.placeholder = `Search cast or director from ${last.name}...`;
-                chipsTitle.innerHTML = `Cast & Director of <strong>${last.name}</strong>:`;
+                chipsTitle.innerHTML = `Cast & Crew of <strong>${last.name}</strong>:`;
             }
 
             // Render Trail
@@ -939,15 +977,13 @@
             });
 
             // Check Win Condition
-            if (last.id && currentChallenge.target.id && last.id === currentChallenge.target.id) {
-                handleWin();
-                return;
-            } else if (last.name.toLowerCase() === currentChallenge.target.name.toLowerCase()) {
+            if ((last.id && currentChallenge.target.id && last.id === currentChallenge.target.id) || 
+                (last.name.toLowerCase() === currentChallenge.target.name.toLowerCase())) {
                 handleWin();
                 return;
             }
 
-            // Fetch Live Connections
+            // Fetch Live Connections from API
             toggleLoading(true);
             currentAvailableOptions = await fetchLiveConnections(last);
             toggleLoading(false);
@@ -963,7 +999,7 @@
         async function fetchLiveConnections(node) {
             try {
                 if (node.type === 'actor' || node.type === 'director') {
-                    // Fetch every movie they acted in or directed
+                    // Fetch real-time filmography
                     const res = await fetch(`${BASE_URL}/person/${node.id}/movie_credits?api_key=${API_KEY}`);
                     const data = await res.json();
                     const movies = [];
@@ -985,13 +1021,13 @@
 
                     return movies.sort((a, b) => (b.year || 0) - (a.year || 0));
                 } else {
-                    // Fetch cast & directors of this movie
+                    // Fetch real-time cast and crew
                     const res = await fetch(`${BASE_URL}/movie/${node.id}/credits?api_key=${API_KEY}`);
                     const data = await res.json();
                     const people = [];
                     const seen = new Set();
 
-                    (data.cast || []).slice(0, 30).forEach(c => {
+                    (data.cast || []).slice(0, 35).forEach(c => {
                         if (c.name && !seen.has(c.id)) {
                             seen.add(c.id);
                             people.push({ id: c.id, name: c.name, type: 'actor' });
@@ -1008,7 +1044,7 @@
                     return people;
                 }
             } catch (err) {
-                console.error(err);
+                console.error("API error:", err);
                 return [];
             }
         }
@@ -1017,11 +1053,11 @@
             const container = document.getElementById('availableChips');
             container.innerHTML = '';
             if (!options.length) {
-                container.innerHTML = '<span class="text-xs text-zinc-500">No connections returned from cloud. Try searching directly above!</span>';
+                container.innerHTML = '<span class="text-xs text-zinc-500">No connections returned. Type in the search box above!</span>';
                 return;
             }
 
-            options.slice(0, 40).forEach(opt => {
+            options.slice(0, 45).forEach(opt => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 const style = opt.type === 'movie' 
@@ -1031,7 +1067,7 @@
                     : 'bg-amber-950/60 text-amber-300 border-amber-800 hover:border-amber-400';
                 
                 btn.className = `px-3 py-1.5 rounded-xl border text-xs font-medium cursor-pointer transition ${style}`;
-                btn.innerHTML = `${opt.type === 'movie' ? '🎬' : '👤'} ${opt.name} ${opt.year ? `<span class="opacity-60 text-[10px]">(${opt.year})</span>` : ''}`;
+                btn.innerHTML = `${opt.type === 'movie' ? '🎬' : opt.type === 'director' ? '🎥' : '👤'} ${opt.name} ${opt.year ? `<span class="opacity-60 text-[10px]">(${opt.year})</span>` : ''}`;
                 btn.addEventListener('mousedown', (e) => {
                     e.preventDefault();
                     makeMove(opt);
@@ -1045,7 +1081,8 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('autocompleteList').classList.add('hidden');
             
-            if (choice.id === currentChallenge.target.id || choice.name.toLowerCase() === currentChallenge.target.name.toLowerCase()) {
+            if ((choice.id && currentChallenge.target.id && choice.id === currentChallenge.target.id) || 
+                (choice.name.toLowerCase() === currentChallenge.target.name.toLowerCase())) {
                 await updateTrailAndChips();
                 return;
             }
@@ -1057,12 +1094,11 @@
         function handleWin() {
             roundsCleared++;
             document.getElementById('totalClearedCount').textContent = roundsCleared;
-            document.getElementById('winPlayerCelebration').textContent = `${players[currentPlayerIndex]} connected the final bridge! 🎉`;
+            document.getElementById('winPlayerCelebration').textContent = `${players[currentPlayerIndex]} completed the connection! 🎉`;
             document.getElementById('winSubtext').textContent = `The team successfully connected them in ${currentTrail.length - 1} steps!`;
             document.getElementById('winModal').classList.remove('hidden');
         }
 
-        // Search within available connections
         function setupSearch() {
             const input = document.getElementById('searchInput');
             const autoList = document.getElementById('autocompleteList');
@@ -1098,21 +1134,20 @@
             });
         }
 
-        // Live Cloud Search for Custom Matches (Find any actor in Indian history)
         function setupCustomInputsAutoSuggest() {
             let startSelected = null;
             let targetSelected = null;
 
-            bindLivePersonSearch(document.getElementById('customStartInput'), document.getElementById('customStartSuggest'), (p) => {
-                startSelected = p;
+            bindLiveGlobalSearch(document.getElementById('customStartInput'), document.getElementById('customStartSuggest'), (item) => {
+                startSelected = item;
             });
-            bindLivePersonSearch(document.getElementById('customTargetInput'), document.getElementById('customTargetSuggest'), (p) => {
-                targetSelected = p;
+            bindLiveGlobalSearch(document.getElementById('customTargetInput'), document.getElementById('customTargetSuggest'), (item) => {
+                targetSelected = item;
             });
 
             document.getElementById('startCustomChallengeBtn').onclick = () => {
                 if (!startSelected || !targetSelected) {
-                    alert("Please select both actors from the suggestion dropdown list!");
+                    alert("Please select both items from the suggestion dropdown list!");
                     return;
                 }
                 if (startSelected.id === targetSelected.id) {
@@ -1121,14 +1156,11 @@
                 }
 
                 document.getElementById('customModal').classList.add('hidden');
-                startChallenge(
-                    { id: startSelected.id, name: startSelected.name, type: 'actor' },
-                    { id: targetSelected.id, name: targetSelected.name, type: 'actor' }
-                );
+                startChallenge(startSelected, targetSelected);
             };
         }
 
-        function bindLivePersonSearch(inputEl, suggestEl, onSelect) {
+        function bindLiveGlobalSearch(inputEl, suggestEl, onSelect) {
             let debounceTimer;
             inputEl.addEventListener('input', () => {
                 clearTimeout(debounceTimer);
@@ -1140,19 +1172,633 @@
 
                 debounceTimer = setTimeout(async () => {
                     try {
-                        const res = await fetch(`${BASE_URL}/search/person?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
+                        const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
                         const data = await res.json();
                         suggestEl.innerHTML = '';
 
-                        if (data.results && data.results.length > 0) {
-                            data.results.slice(0, 8).forEach(p => {
+                        const validResults = (data.results || []).filter(r => r.media_type === 'person' || r.media_type === 'movie');
+
+                        if (validResults.length > 0) {
+                            validResults.slice(0, 10).forEach(r => {
+                                const isMovie = r.media_type === 'movie';
+                                const title = isMovie ? r.title : r.name;
+                                const sub = isMovie ? (r.release_date || '').split('-')[0] : (r.known_for_department || 'Artist');
+                                
                                 const row = document.createElement('div');
                                 row.className = 'px-3 py-2 text-xs hover:bg-zinc-800 cursor-pointer text-zinc-200 flex items-center justify-between border-b border-zinc-900 last:border-none';
-                                row.innerHTML = `<span>${p.name}</span> <span class="text-[10px] text-zinc-500 uppercase">${p.known_for_department || 'Actor'}</span>`;
+                                row.innerHTML = `<span>${isMovie ? '🎬' : '👤'} ${title} <span class="text-zinc-500 text-[10px]">(${sub})</span></span> <span class="text-[10px] text-zinc-500 uppercase">${isMovie ? 'Movie' : 'Person'}</span>`;
                                 row.addEventListener('mousedown', (e) => {
                                     e.preventDefault();
-                                    inputEl.value = p.name;
-                                    onSelect(p);
+                                    inputEl.value = title;
+                                    onSelect({ id: r.id, name: title, type: isMovie ? 'movie' : 'actor' });
+                                    suggestEl.classList.add('hidden');
+                                });
+                                suggestEl.appendChild(row);
+                            });
+                            suggestEl.classList.remove('hidden');
+                        } else {
+                            suggestEl.classList.add('hidden');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }, 300);
+            });
+
+            inputEl.addEventListener('blur', () => {
+                setTimeout(() => suggestEl.classList.add('hidden'), 200);
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineConnect: Live Indian Cinema Challenge</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f59e0b">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #18181b; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-amber-500 selection:text-black">
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-zinc-800 bg-zinc-900/80 backdrop-blur sticky top-0 z-40 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+            <span class="text-2xl">🎬</span>
+            <div>
+                <h1 class="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">CineConnect Live</h1>
+                <p class="text-[10px] text-zinc-400">100% Automated via Live Cinema API</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="customChallengeBtn" class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 text-xs font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Custom Match
+            </button>
+            <button id="randomPairBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-shuffle"></i> Random
+            </button>
+            <button id="groupSetupBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-users"></i> (<span id="playerCountLabel">2</span>)
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-2xl w-full mx-auto p-4 sm:p-6 flex flex-col gap-4">
+
+        <!-- Turn & Stats Status Bar -->
+        <div id="turnBanner" class="bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-transparent border border-amber-500/30 rounded-2xl p-3 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-amber-500 text-black font-black flex items-center justify-center text-xs shadow-md">
+                    <span id="turnPlayerNum">1</span>
+                </div>
+                <div>
+                    <span class="text-[10px] text-amber-400/80 uppercase font-bold tracking-wider block">Turn To Pick</span>
+                    <span id="turnPlayerName" class="font-bold text-sm text-zinc-100">Player 1</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="text-right">
+                    <span class="text-[10px] text-zinc-400 block">Moves</span>
+                    <span id="stepCount" class="font-black text-amber-400 text-sm">0</span>
+                </div>
+                <div class="text-right border-l border-zinc-800 pl-3">
+                    <span class="text-[10px] text-zinc-400 block">Cleared</span>
+                    <span id="totalClearedCount" class="font-black text-emerald-400 text-sm">0</span>
+                </div>
+                <button id="resetLevelBtn" class="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-400 text-xs transition" title="Restart Round">
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Target Cards -->
+        <div class="grid grid-cols-2 gap-3 sm:gap-4 items-center">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col items-center text-center">
+                <span class="text-[10px] uppercase font-bold text-zinc-400 mb-1">Starting Point</span>
+                <div id="startNodeIcon" class="text-2xl mb-1">👤</div>
+                <div id="startNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">-</div>
+                <span id="startNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-zinc-800 text-zinc-300">ACTOR</span>
+            </div>
+
+            <div class="bg-zinc-900 border border-amber-500/30 rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-16 h-16 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+                <span class="text-[10px] uppercase font-bold text-amber-400 mb-1">Target to Reach</span>
+                <div id="targetNodeIcon" class="text-2xl mb-1">🎯</div>
+                <div id="targetNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">-</div>
+                <span id="targetNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">ACTOR</span>
+            </div>
+        </div>
+
+        <!-- Connection Trail -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
+            <span class="text-xs text-zinc-400 block mb-2 font-medium">Chain of Connections:</span>
+            <div id="trailContainer" class="flex flex-wrap items-center gap-2 text-xs"></div>
+        </div>
+
+        <!-- Move Input with Live Database Suggestions -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 sm:p-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <label id="searchLabelPrompt" class="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-magnifying-glass text-amber-400"></i> Next Step:
+                </label>
+                <span id="loadingIndicator" class="hidden text-[10px] text-amber-400 animate-pulse flex items-center gap-1">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Fetching live from TMDB...
+                </span>
+            </div>
+
+            <div class="relative">
+                <input id="searchInput" type="text" autocomplete="off" placeholder="Type name..."
+                    class="w-full bg-zinc-950 border border-zinc-700 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition">
+                <div id="autocompleteList" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-56 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
+            </div>
+
+            <div>
+                <span id="chipsSectionTitle" class="text-[11px] text-zinc-400 block mb-2 font-medium">Auto-Fetched Connections:</span>
+                <div id="availableChips" class="flex flex-wrap gap-2 max-h-56 overflow-y-auto custom-scroll p-1"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Custom Challenge Modal -->
+    <div id="customModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-2xl p-5 max-w-md w-full flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+                <h3 class="font-bold text-sm text-zinc-100 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Search Any 2 People / Movies Live
+                </h3>
+                <button id="closeCustomModal" class="text-zinc-500 hover:text-zinc-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <p class="text-xs text-zinc-400">Type any actor, actress, director, or movie from any decade to search the live global movie database!</p>
+
+            <div class="flex flex-col gap-3">
+                <div class="relative">
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Start From (Type name):</label>
+                    <input id="customStartInput" type="text" autocomplete="off" placeholder="Type actor or movie name..."
+                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
+                    <div id="customStartSuggest" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-44 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
+                </div>
+
+                <div class="relative">
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Target to Reach (Type name):</label>
+                    <input id="customTargetInput" type="text" autocomplete="off" placeholder="Type target actor or movie..."
+                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
+                    <div id="customTargetSuggest" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-44 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
+                </div>
+            </div>
+
+            <button id="startCustomChallengeBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-black font-bold py-2.5 rounded-xl text-xs transition">
+                Start Live Match
+            </button>
+        </div>
+    </div>
+
+    <!-- Group Players Modal -->
+    <div id="playersModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-2xl p-5 max-w-md w-full flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+                <h3 class="font-bold text-sm text-zinc-100 flex items-center gap-2">
+                    <i class="fa-solid fa-users text-amber-400"></i> Manage Group Players
+                </h3>
+                <button id="closePlayersModal" class="text-zinc-500 hover:text-zinc-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div id="playersInputList" class="flex flex-col gap-2"></div>
+
+            <div class="flex gap-2">
+                <button id="addPlayerFieldBtn" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2 rounded-xl text-xs transition">
+                    + Add Player
+                </button>
+                <button id="savePlayersBtn" class="flex-1 bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-xl text-xs transition">
+                    Save Group
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Win Modal -->
+    <div id="winModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-amber-500/40 rounded-3xl p-6 max-w-sm w-full text-center flex flex-col items-center shadow-2xl">
+            <div class="text-5xl mb-2 animate-bounce">🏆</div>
+            <h2 class="text-xl font-black text-amber-400 mb-1">Bridge Connected!</h2>
+            <p id="winPlayerCelebration" class="text-sm font-semibold text-zinc-100 mb-1">Player 1 connected the bridge!</p>
+            <p id="winSubtext" class="text-xs text-zinc-400 mb-5">Completed in 4 steps.</p>
+
+            <div class="flex flex-col gap-2 w-full">
+                <button id="modalPlayNextBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-black font-bold py-2.5 rounded-xl text-xs transition">
+                    <i class="fa-solid fa-shuffle"></i> Play Random Pair
+                </button>
+                <button id="modalCustomBtn" class="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2.5 rounded-xl text-xs transition">
+                    Custom Match
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Automatic live TMDB API configuration
+        const API_KEY = "e547e17d4e91f3e62a571655cd1ccaff";
+        const BASE_URL = "https://api.themoviedb.org/3";
+
+        // Curated popular starters for instant 1-click play across decades
+        const CURATED_PAIRS = [
+            { start: { id: 85375, name: "Dilip Kumar", type: "actor" }, target: { id: 35742, name: "Shah Rukh Khan", type: "actor" } },
+            { start: { id: 85386, name: "Raj Kapoor", type: "actor" }, target: { id: 85348, name: "Ranbir Kapoor", type: "actor" } },
+            { start: { id: 53579, name: "Amitabh Bachchan", type: "actor" }, target: { id: 71871, name: "Rajinikanth", type: "actor" } },
+            { start: { id: 73421, name: "Kamal Haasan", type: "actor" }, target: { id: 35742, name: "Shah Rukh Khan", type: "actor" } },
+            { start: { id: 76541, name: "Prabhas", type: "actor" }, target: { id: 53579, name: "Amitabh Bachchan", type: "actor" } },
+            { start: { id: 78586, name: "Allu Arjun", type: "actor" }, target: { id: 85348, name: "Ranbir Kapoor", type: "actor" } },
+            { start: { id: 86782, name: "Thalapathy Vijay", type: "actor" }, target: { id: 3223, name: "Salman Khan", type: "actor" } },
+            { start: { id: 52969, name: "Aamir Khan", type: "actor" }, target: { id: 121544, name: "Yash", type: "actor" } },
+            { start: { id: 58872, name: "Fahadh Faasil", type: "actor" }, target: { id: 78749, name: "Hrithik Roshan", type: "actor" } }
+        ];
+
+        let players = ["Player 1", "Player 2"];
+        let currentPlayerIndex = 0;
+        let roundsCleared = 0;
+        let currentChallenge = CURATED_PAIRS[0];
+
+        let currentTrail = [];
+        let currentAvailableOptions = [];
+
+        async function init() {
+            renderPlayerInputs();
+            setupSearch();
+            setupCustomInputsAutoSuggest();
+            setupEventListeners();
+            startChallenge(currentChallenge.start, currentChallenge.target);
+        }
+
+        function setupEventListeners() {
+            document.getElementById('groupSetupBtn').onclick = () => document.getElementById('playersModal').classList.remove('hidden');
+            document.getElementById('closePlayersModal').onclick = () => document.getElementById('playersModal').classList.add('hidden');
+            
+            document.getElementById('customChallengeBtn').onclick = () => {
+                document.getElementById('customStartInput').value = '';
+                document.getElementById('customTargetInput').value = '';
+                document.getElementById('customModal').classList.remove('hidden');
+            };
+            document.getElementById('closeCustomModal').onclick = () => document.getElementById('customModal').classList.add('hidden');
+
+            document.getElementById('randomPairBtn').onclick = loadRandomPair;
+
+            document.getElementById('addPlayerFieldBtn').onclick = () => {
+                if (players.length < 8) {
+                    players.push(`Player ${players.length + 1}`);
+                    renderPlayerInputs();
+                }
+            };
+
+            document.getElementById('savePlayersBtn').onclick = () => {
+                const inputs = document.querySelectorAll('.player-input-val');
+                const newPlayers = [];
+                inputs.forEach((inp, idx) => {
+                    const name = inp.value.trim() || `Player ${idx + 1}`;
+                    newPlayers.push(name);
+                });
+                if (newPlayers.length >= 1) {
+                    players = newPlayers;
+                    document.getElementById('playerCountLabel').textContent = players.length;
+                    document.getElementById('playersModal').classList.add('hidden');
+                    updateTurnIndicator();
+                }
+            };
+
+            document.getElementById('resetLevelBtn').onclick = () => {
+                startChallenge(currentChallenge.start, currentChallenge.target);
+            };
+
+            document.getElementById('modalPlayNextBtn').onclick = () => {
+                document.getElementById('winModal').classList.add('hidden');
+                loadRandomPair();
+            };
+
+            document.getElementById('modalCustomBtn').onclick = () => {
+                document.getElementById('winModal').classList.add('hidden');
+                document.getElementById('customModal').classList.remove('hidden');
+            };
+        }
+
+        function loadRandomPair() {
+            const nextPair = CURATED_PAIRS[Math.floor(Math.random() * CURATED_PAIRS.length)];
+            startChallenge(nextPair.start, nextPair.target);
+        }
+
+        function renderPlayerInputs() {
+            const list = document.getElementById('playersInputList');
+            list.innerHTML = '';
+            players.forEach((p, idx) => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-2';
+                div.innerHTML = `
+                    <span class="text-xs font-bold text-amber-400 w-6">#${idx + 1}</span>
+                    <input type="text" value="${p}" class="player-input-val flex-1 bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
+                    ${players.length > 1 ? `<button onclick="removePlayer(${idx})" class="text-zinc-500 hover:text-rose-400 text-xs px-2"><i class="fa-solid fa-trash"></i></button>` : ''}
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        window.removePlayer = function(index) {
+            if (players.length > 1) {
+                players.splice(index, 1);
+                renderPlayerInputs();
+            }
+        };
+
+        async function startChallenge(start, target) {
+            currentChallenge = { start, target };
+            currentTrail = [start];
+            currentPlayerIndex = 0;
+
+            document.getElementById('startNodeTitle').textContent = start.name;
+            document.getElementById('startNodeType').textContent = start.type.toUpperCase();
+            document.getElementById('startNodeIcon').textContent = start.type === 'movie' ? '🎬' : '👤';
+
+            document.getElementById('targetNodeTitle').textContent = target.name;
+            document.getElementById('targetNodeType').textContent = target.type.toUpperCase();
+            document.getElementById('targetNodeIcon').textContent = target.type === 'movie' ? '🎬' : '👤';
+
+            updateTurnIndicator();
+            await updateTrailAndChips();
+        }
+
+        function updateTurnIndicator() {
+            document.getElementById('turnPlayerNum').textContent = currentPlayerIndex + 1;
+            document.getElementById('turnPlayerName').textContent = players[currentPlayerIndex];
+        }
+
+        function nextTurn() {
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            updateTurnIndicator();
+        }
+
+        async function updateTrailAndChips() {
+            const last = currentTrail[currentTrail.length - 1];
+            document.getElementById('stepCount').textContent = currentTrail.length - 1;
+
+            const searchInput = document.getElementById('searchInput');
+            const chipsTitle = document.getElementById('chipsSectionTitle');
+            const searchLabel = document.getElementById('searchLabelPrompt');
+
+            if (last.type === 'actor') {
+                searchLabel.innerHTML = `<i class="fa-solid fa-film text-amber-400"></i> Pick any Movie starring <span class="text-amber-400 font-bold ml-1">${last.name}</span>:`;
+                searchInput.placeholder = `Search any movie featuring ${last.name}...`;
+                chipsTitle.innerHTML = `Live Filmography of <strong>${last.name}</strong>:`;
+            } else {
+                searchLabel.innerHTML = `<i class="fa-solid fa-users text-amber-400"></i> Pick Cast or Director from <span class="text-amber-400 font-bold ml-1">${last.name}</span>:`;
+                searchInput.placeholder = `Search cast or director from ${last.name}...`;
+                chipsTitle.innerHTML = `Cast & Crew of <strong>${last.name}</strong>:`;
+            }
+
+            // Render Trail
+            const trailEl = document.getElementById('trailContainer');
+            trailEl.innerHTML = '';
+            currentTrail.forEach((node, i) => {
+                const span = document.createElement('span');
+                const badgeColor = node.type === 'movie' 
+                    ? 'bg-zinc-800 text-zinc-200 border-zinc-700' 
+                    : node.type === 'director' 
+                    ? 'bg-emerald-950/70 text-emerald-300 border-emerald-800' 
+                    : 'bg-amber-950/70 text-amber-300 border-amber-800';
+                span.className = `px-2.5 py-1 rounded-lg border ${badgeColor} font-medium flex items-center gap-1.5`;
+                span.innerHTML = `${node.type === 'movie' ? '🎬' : '👤'} <span>${node.name}</span>`;
+                trailEl.appendChild(span);
+
+                if (i < currentTrail.length - 1) {
+                    const arrow = document.createElement('i');
+                    arrow.className = 'fa-solid fa-chevron-right text-zinc-600 text-[10px]';
+                    trailEl.appendChild(arrow);
+                }
+            });
+
+            // Check Win Condition
+            if ((last.id && currentChallenge.target.id && last.id === currentChallenge.target.id) || 
+                (last.name.toLowerCase() === currentChallenge.target.name.toLowerCase())) {
+                handleWin();
+                return;
+            }
+
+            // Fetch Live Connections from API
+            toggleLoading(true);
+            currentAvailableOptions = await fetchLiveConnections(last);
+            toggleLoading(false);
+            renderChips(currentAvailableOptions);
+        }
+
+        function toggleLoading(isLoading) {
+            const el = document.getElementById('loadingIndicator');
+            if (isLoading) el.classList.remove('hidden');
+            else el.classList.add('hidden');
+        }
+
+        async function fetchLiveConnections(node) {
+            try {
+                if (node.type === 'actor' || node.type === 'director') {
+                    // Fetch real-time filmography
+                    const res = await fetch(`${BASE_URL}/person/${node.id}/movie_credits?api_key=${API_KEY}`);
+                    const data = await res.json();
+                    const movies = [];
+                    const seen = new Set();
+
+                    (data.cast || []).forEach(m => {
+                        if (m.title && !seen.has(m.id)) {
+                            seen.add(m.id);
+                            movies.push({ id: m.id, name: m.title, type: 'movie', year: (m.release_date || '').split('-')[0] });
+                        }
+                    });
+
+                    (data.crew || []).filter(c => c.job === 'Director').forEach(m => {
+                        if (m.title && !seen.has(m.id)) {
+                            seen.add(m.id);
+                            movies.push({ id: m.id, name: m.title, type: 'movie', year: (m.release_date || '').split('-')[0] });
+                        }
+                    });
+
+                    return movies.sort((a, b) => (b.year || 0) - (a.year || 0));
+                } else {
+                    // Fetch real-time cast and crew
+                    const res = await fetch(`${BASE_URL}/movie/${node.id}/credits?api_key=${API_KEY}`);
+                    const data = await res.json();
+                    const people = [];
+                    const seen = new Set();
+
+                    (data.cast || []).slice(0, 35).forEach(c => {
+                        if (c.name && !seen.has(c.id)) {
+                            seen.add(c.id);
+                            people.push({ id: c.id, name: c.name, type: 'actor' });
+                        }
+                    });
+
+                    (data.crew || []).filter(c => c.job === 'Director').forEach(d => {
+                        if (d.name && !seen.has(d.id)) {
+                            seen.add(d.id);
+                            people.push({ id: d.id, name: d.name, type: 'director' });
+                        }
+                    });
+
+                    return people;
+                }
+            } catch (err) {
+                console.error("API error:", err);
+                return [];
+            }
+        }
+
+        function renderChips(options) {
+            const container = document.getElementById('availableChips');
+            container.innerHTML = '';
+            if (!options.length) {
+                container.innerHTML = '<span class="text-xs text-zinc-500">No connections returned. Type in the search box above!</span>';
+                return;
+            }
+
+            options.slice(0, 45).forEach(opt => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                const style = opt.type === 'movie' 
+                    ? 'bg-zinc-800 text-zinc-200 border-zinc-700 hover:border-amber-400' 
+                    : opt.type === 'director' 
+                    ? 'bg-emerald-950/60 text-emerald-300 border-emerald-800 hover:border-emerald-400' 
+                    : 'bg-amber-950/60 text-amber-300 border-amber-800 hover:border-amber-400';
+                
+                btn.className = `px-3 py-1.5 rounded-xl border text-xs font-medium cursor-pointer transition ${style}`;
+                btn.innerHTML = `${opt.type === 'movie' ? '🎬' : opt.type === 'director' ? '🎥' : '👤'} ${opt.name} ${opt.year ? `<span class="opacity-60 text-[10px]">(${opt.year})</span>` : ''}`;
+                btn.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    makeMove(opt);
+                });
+                container.appendChild(btn);
+            });
+        }
+
+        async function makeMove(choice) {
+            currentTrail.push(choice);
+            document.getElementById('searchInput').value = '';
+            document.getElementById('autocompleteList').classList.add('hidden');
+            
+            if ((choice.id && currentChallenge.target.id && choice.id === currentChallenge.target.id) || 
+                (choice.name.toLowerCase() === currentChallenge.target.name.toLowerCase())) {
+                await updateTrailAndChips();
+                return;
+            }
+
+            nextTurn();
+            await updateTrailAndChips();
+        }
+
+        function handleWin() {
+            roundsCleared++;
+            document.getElementById('totalClearedCount').textContent = roundsCleared;
+            document.getElementById('winPlayerCelebration').textContent = `${players[currentPlayerIndex]} completed the connection! 🎉`;
+            document.getElementById('winSubtext').textContent = `The team successfully connected them in ${currentTrail.length - 1} steps!`;
+            document.getElementById('winModal').classList.remove('hidden');
+        }
+
+        function setupSearch() {
+            const input = document.getElementById('searchInput');
+            const autoList = document.getElementById('autocompleteList');
+
+            input.addEventListener('input', () => {
+                const val = input.value.trim().toLowerCase();
+                if (!val) {
+                    autoList.classList.add('hidden');
+                    return;
+                }
+                const matches = currentAvailableOptions.filter(o => o.name.toLowerCase().includes(val));
+
+                autoList.innerHTML = '';
+                if (matches.length > 0) {
+                    matches.slice(0, 15).forEach(m => {
+                        const div = document.createElement('div');
+                        div.className = 'px-3 py-2 text-xs hover:bg-zinc-800 cursor-pointer text-zinc-200 flex items-center justify-between border-b border-zinc-900 last:border-none';
+                        div.innerHTML = `<span>${m.name} ${m.year ? `<span class="text-zinc-500">(${m.year})</span>` : ''}</span> <span class="text-[10px] text-zinc-500 uppercase">${m.type}</span>`;
+                        div.addEventListener('mousedown', (e) => {
+                            e.preventDefault();
+                            makeMove(m);
+                        });
+                        autoList.appendChild(div);
+                    });
+                    autoList.classList.remove('hidden');
+                } else {
+                    autoList.classList.add('hidden');
+                }
+            });
+
+            input.addEventListener('blur', () => {
+                setTimeout(() => autoList.classList.add('hidden'), 150);
+            });
+        }
+
+        function setupCustomInputsAutoSuggest() {
+            let startSelected = null;
+            let targetSelected = null;
+
+            bindLiveGlobalSearch(document.getElementById('customStartInput'), document.getElementById('customStartSuggest'), (item) => {
+                startSelected = item;
+            });
+            bindLiveGlobalSearch(document.getElementById('customTargetInput'), document.getElementById('customTargetSuggest'), (item) => {
+                targetSelected = item;
+            });
+
+            document.getElementById('startCustomChallengeBtn').onclick = () => {
+                if (!startSelected || !targetSelected) {
+                    alert("Please select both items from the suggestion dropdown list!");
+                    return;
+                }
+                if (startSelected.id === targetSelected.id) {
+                    alert("Start and Target cannot be identical!");
+                    return;
+                }
+
+                document.getElementById('customModal').classList.add('hidden');
+                startChallenge(startSelected, targetSelected);
+            };
+        }
+
+        function bindLiveGlobalSearch(inputEl, suggestEl, onSelect) {
+            let debounceTimer;
+            inputEl.addEventListener('input', () => {
+                clearTimeout(debounceTimer);
+                const query = inputEl.value.trim();
+                if (query.length < 2) {
+                    suggestEl.classList.add('hidden');
+                    return;
+                }
+
+                debounceTimer = setTimeout(async () => {
+                    try {
+                        const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
+                        const data = await res.json();
+                        suggestEl.innerHTML = '';
+
+                        const validResults = (data.results || []).filter(r => r.media_type === 'person' || r.media_type === 'movie');
+
+                        if (validResults.length > 0) {
+                            validResults.slice(0, 10).forEach(r => {
+                                const isMovie = r.media_type === 'movie';
+                                const title = isMovie ? r.title : r.name;
+                                const sub = isMovie ? (r.release_date || '').split('-')[0] : (r.known_for_department || 'Artist');
+                                
+                                const row = document.createElement('div');
+                                row.className = 'px-3 py-2 text-xs hover:bg-zinc-800 cursor-pointer text-zinc-200 flex items-center justify-between border-b border-zinc-900 last:border-none';
+                                row.innerHTML = `<span>${isMovie ? '🎬' : '👤'} ${title} <span class="text-zinc-500 text-[10px]">(${sub})</span></span> <span class="text-[10px] text-zinc-500 uppercase">${isMovie ? 'Movie' : 'Person'}</span>`;
+                                row.addEventListener('mousedown', (e) => {
+                                    e.preventDefault();
+                                    inputEl.value = title;
+                                    onSelect({ id: r.id, name: title, type: isMovie ? 'movie' : 'actor' });
                                     suggestEl.classList.add('hidden');
                                 });
                                 suggestEl.appendChild(row);
