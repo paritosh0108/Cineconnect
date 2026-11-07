@@ -1,3 +1,1176 @@
+
+Gemini
+
+New chat
+Library
+Images
+Scheduled
+Customize
+Videos
+New notebook
+Building an Indian Cinema App
+Secret Agent Steps Out
+Higgsfield API Key Guide
+Fixing Notion Startup Cache Error
+Fixing Invisible Masks in Premiere Pro
+Fixing Video Generation Face Prompts
+90s Mumbai Car Drift Video
+Multi-Page Website Planning
+Connect Custom Domain to GitHub Pages
+Ayushmann Khurrana Connection Guide
+Finding Solace in Music
+Aesthetic Captions for Divine Songs
+Cinematic Birthday Poster Generation Instructions
+Instant T-Shirt Printing in Gachibowli
+Instagram Linen Beachwear Brand Suggestions
+Conversation with Gemini
+So its all written in html only
+
+Yes, it is all packaged into a single .html file.   
+index.html
+
+That file bundles everything the web app needs together:
+
+HTML (The Structure): Defines the interface elements such as the buttons, headings, modals, and search bars.
+
+CSS (The Styling): Tailwind CSS is imported via a CDN link in the <head> section to handle colors, spacing, and mobile layouts.
+
+JavaScript (The Logic & API Engine): Contained inside the <script> tag at the bottom. It connects directly to TMDB to fetch cast and crew details, handles player turns, and powers the connection chain.
+
+
+index.html
+Because all three parts live inside index.html, GitHub Pages can host and run the entire application directly without requiring a separate backend server or database setup.   
+1793705704881.jpeg
++ 1
+
+Okay so now i want this show a picture of movie or artist too
+
+Your updated index.html file with movie posters and artist photos is ready:
+
+HTML icon
+index
+ HTML 
+What’s New with Images:
+Large Profile & Poster Cards: The Starting Point and Target cards now fetch and display high-quality portrait photos or official movie posters directly from TMDB instead of plain emoji icons.
+
+Clickable Thumbnails: Every movie and actor button displayed under "Auto-Fetched Connections" includes a mini poster or headshot photo.
+
+Visual Trail: As your chain grows, each connecting step features a circular photo thumbnail.
+
+Visual Search Dropdown: When searching during gameplay or setting up a custom match, auto-suggestions display movie posters and actor headshots beside each name.
+
+How to Update on GitHub:
+Open your repository on mobile: github.com/paritosh0108/Cineconnect[cite: 3].
+
+Tap index.html 
+→ tap the edit pencil icon (✏️).
+
+Select all existing code, delete it, paste the new code from the file above, and tap Commit changes.
+
+In under 60 seconds, your site at [https://paritosh0108.github.io/Cineconnect/](https://paritosh0108.github.io/Cineconnect/) will show the updated interface with live images[cite: 10]!
+
+So want to make few changes in code
+
+What specific changes would you like to make to the code?
+
+So first thing whenever user open wensite first it shows like tagline like lets test your cinephile correct the gramar of tagline and second when user selct an option for random the pic we are getting for artist is not correct so make it correct
+
+Here is the updated index.html file with both fixes applied:
+
+HTML icon
+index
+ HTML 
+What Was Fixed
+Tagline Grammar & Positioning:
+
+Changed to: "Let's test the cinephile in you!"
+
+Placed right beneath the main title in the top navigation bar so every visitor sees it as soon as the site opens.
+
+Accurate Artist Pictures on "Random Pair":
+
+Previously, preset pairs used hardcoded database IDs. In TMDB, some of those generic IDs pointed to international actors with similar index numbers, displaying incorrect headshots.
+
+Replaced the hardcoded IDs with an automatic resolver function fetchExactPersonByName(...). Whenever you or your friends tap Random Pair, the app queries TMDB by the actor's verified name (e.g., Dilip Kumar, Raj Kapoor, Ranbir Kapoor, Rajinikanth, Prabhas, Kamal Haasan, Deepika Padukone, Fahadh Faasil), ensuring the correct portrait photo and real filmography are loaded every single time.
+
+Added an image error fallback so if TMDB ever has an empty portrait, it displays a clean placeholder rather than a broken image link.
+
+How to Update on GitHub
+Open your repository on your phone: github.com/paritosh0108/Cineconnect[cite: 3].
+
+Tap index.html 
+→ tap the pencil icon (✏️).
+
+Select all existing code, delete it, paste the new code from the file above, and tap Commit changes.
+
+Within 60 seconds, your live site at [https://paritosh0108.github.io/Cineconnect/](https://paritosh0108.github.io/Cineconnect/) will reflect the updated tagline and accurate artist photos[cite: 10].
+
+Nice good work
+
+Glad to hear you like it! Have fun testing your cinephile friends, and let me know whenever you want to add new features, tweak the UI, or build more modes.
+
+So summarise the project till now semd me the code file and now im hiring you as my marketer tell me how i can mometize it act like product manager you built team for developer as agemt work with them update me and suggest me some good point
+
+Your HTML file is ready:
+
+HTML icon
+CineConnect_index
+ HTML 
+Executive Project Summary (Where We Stand)
+We built and deployed CineConnect, a real-time, zero-backend, cloud-powered web game dedicated to Indian cinema:
+
+Architecture: Packaged into a single-file lightweight architecture (index.html) using HTML5, Tailwind CSS, and vanilla asynchronous JavaScript.
+
+Infrastructure & Hosting: Deployed on GitHub Pages at [https://paritosh0108.github.io/Cineconnect/](https://paritosh0108.github.io/Cineconnect/) with SSL security enforced and PWA configuration (manifest.json) for home-screen installation.
+
+Data Pipeline: Integrated directly with The Movie Database (TMDB) API using your registered API credentials.
+
+Key Features Shipped:
+
+Live Filmography & Credits: Clicking any actor pulls their active career filmography; clicking any movie pulls its full director and cast registry.
+
+Dynamic Visual Rendering: High-resolution movie posters and artist portraits render live across target cards, chain chips, and suggestion dropdowns.
+
+Unlimited & Random Play: Instant 1-click randomized pairing across Bollywood, Tollywood, Kollywood, Mollywood, and Sandalwood.
+
+Multiplayer Party Mode: Turn-based pass-and-play mechanic supporting up to 8 local players.
+
+Custom Match Engine: Global multi-search enabling players to create custom challenges between any two film personalities across eras.
+
+Product Manager & Engineering Team Brief
+To run this product like an engineering organization, I have broken down our development roadmap into three dedicated virtual tracks:
+
+1. Frontend & UX Track
+Victory Share Card Generator: When players complete a chain, generate a native image card (e.g., "I bridged Dilip Kumar to Shah Rukh Khan in 4 moves on CineConnect!") using HTML Canvas for direct 1-tap sharing to Instagram Stories and WhatsApp Status.
+
+Haptic & Audio Feedback: Add lightweight Web Audio API sound effects for successful moves, turn switches, and win screens to boost session duration.
+
+2. Game Engine & Data Track
+"Daily CineConnect" (The Wordle Playbook): Lock in one universal daily connection challenge that resets every midnight IST. Everyone plays the same puzzle, driving organic social bragging rights and daily active retention.
+
+Timer & Blitz Mode: A 30-second shot-clock per turn to heighten party mode competitive tension.
+
+3. Growth & Performance Track
+Client-Side Caching (LocalStorage / IndexedDB): Cache frequently requested actor credits so repeat lookups load with zero network latency.
+
+PWA Install Prompt Banner: A discreet in-app popup: "Install CineConnect on your phone for full-screen play" to drive retention without app store friction.
+
+The Go-To-Market & Growth Playbook
+You do not need an ad budget to distribute this game. Indian cinema fandom is one of the most active internet subcultures in the world.
+
+1. Organic Viral Loops on Instagram Reels & YouTube Shorts
+Format: Screen-record high-tension games with split-screen webcam or voiceover: "Can we connect Amitabh Bachchan to Cillian Murphy through Bollywood?" or "Connecting Rajinikanth to Allu Arjun in 3 moves."
+
+Call-to-Action: Place the link in your bio: "Think you can beat our score? Link in bio to challenge your friends."
+
+2. Community Seeding (Reddit & Discord)
+Drop genuine community posts on high-traffic film subreddits:
+
+r/bollywood (~1M+ members)
+
+r/tollywood
+
+r/kollywood
+
+r/MalayalamMovies
+
+Hook Post: "I built an Indian cinema connection game to test how connected our film industries really are. Try connecting Dilip Kumar to Prabhas."
+
+3. College Festivals & Film Club Partnerships
+Reach out to cultural committees and film clubs in Indian universities. CineConnect is ready-made for college trivia nights and cinema-themed competitions.
+
+Monetization Blueprint (Phased Roadmap)
+Phase 1: Zero Cost (Now)      ──► Phase 2: Micro-Revenue       ──► Phase 3: Scale
+• Adsterra / Monetag Banners       • Rewarded Hint Video Ads       • Google AdSense (.in domain)
+• UPI "Buy Me a Chai" Tip Jar      • Sponsored Movie Quizzes       • Brand Sponsorships (Studios)
+Phase 1: Immediate & Free
+Direct UPI Support: Embed a sleek "Buy the Developer a Chai (₹29)" button on the win celebration modal with a direct UPI deep-link (upi://pay?pa=...).
+
+Domain-Free Ad Networks: Networks like Monetag or Adsterra permit GitHub Pages subdomains without upfront costs. Small banner placements below the connection trail start generating impressions from Day 1.
+
+Phase 2: Mid-Traffic (1,000–5,000 Daily Players)
+Rewarded Hint Video Ads: When players get stuck on a difficult path, provide a "Show Connecting Hint" button that triggers a 15-second rewarded video. Video ads in casual games generate the highest CPMs.
+
+Branded Release Week Takeovers: When major pan-Indian films launch, offer indie production houses and PR agencies a pinned "Movie of the Week" feature challenge.
+
+Phase 3: Full Scale
+Acquire a custom domain (cineconnect.in or playcineconnect.com for ~₹500/year) and onboard to Google AdSense for premium display demand.
+
+Which feature would you like the engineering team to build first: the Midnight Daily Challenge (Wordle style), the Instagram Share Card generator, or the UPI Chai Tip Jar?
+
+Can't i monetize without.in
+
+You can monetize without a .in domain, and you can even monetize directly on your free github.io address right now.
+
+A custom domain is only a strict requirement for legacy ad networks like Google AdSense. Several high-paying monetization channels operate without one:
+
+1. Direct UPI "Buy Me a Chai" (Zero Fees, 100% Free)
+Because your game targets Indian cinema fans, UPI is the most friction-free way to collect payments.
+
+How it works: Add a sleek button on the victory modal: "Enjoying CineConnect? Treat the developer to a chai ☕ ₹29".
+
+Implementation: It uses a standard mobile UPI link (upi://pay?pa=yourupi@okaxis&pn=CineConnect&am=29&cu=INR).
+
+Zero cut: 100% of the money goes straight to your bank account via GPay, PhonePe, or Paytm with zero platform fees, and it works directly on your GitHub URL.
+
+2. Ad Networks That Don't Require Custom Domains
+Networks that accept free subdomains like github.io without requiring a .in or .com domain:
+
+Ad Network	Minimum Traffic	Subdomain Support (github.io)	Best Ad Format for CineConnect
+Monetag (formerly PropellerAds)	None	Yes	Vignette / Interstitial after round clear
+Adsterra	None	Yes	Clean bottom banner or social bar
+A-Ads	None	Yes	Privacy-friendly banner strips
+You create a free account, enter [https://paritosh0108.github.io/Cineconnect/](https://paritosh0108.github.io/Cineconnect/), copy a 2-line script tag, and paste it into index.html.
+
+3. Rewarded Video Ads (Highest Casual Game Payout)
+Instead of annoying banner ads, use rewarded video ads:
+
+When a player gets stuck bridging two distant actors (e.g., Dev Anand to Allu Arjun), display a button: "🎬 Watch a 15s Clip to Reveal Next Movie Link".
+
+Players willingly watch the ad to keep their winning streak alive.
+
+Video CPMs (earnings per 1,000 views) in gaming are typically 4x to 8x higher than static banner ads.
+
+4. Movie Marketing & Promo Tie-Ups
+Indian cinema has hundreds of movie releases every year across Hindi, Telugu, Tamil, and Malayalam.
+
+As your daily active player count grows, you can reach out to digital marketing agencies or film PR teams.
+
+Sponsored Match: For a upcoming Friday release (e.g., an upcoming Rajkummar Rao or Prabhas film), charge a flat fee (e.g., ₹2,000–₹10,000 per weekend) to make that movie the "Featured Daily Challenge" on the home screen.
+
+Production houses care about active impressions and eyeballs, not your domain extension.
+
+Recommended Immediate Setup
+We can integrate the UPI Chai Tip Modal into your game's victory screen right now without spending anything.
+
+Would you like me to drop that into your code?
+
+Okay so update in todays timeline amd again sumaariese it i buy domain from go daddy now its live cineconnect.live
+
+Project Status Summary
+Product Brand & Live Domain: The platform has transitioned from a repository subdomain to a custom brand domain: cineconnect.live.
+
+Core Mechanics: Unlimited, pass-and-play Indian cinema connection engine supporting up to 8 local players.
+
+Architecture: 100% serverless, single-file frontend (index.html) hosted on GitHub Pages, styled with Tailwind CSS, and bundled with PWA support (manifest.json).
+
+Live Cloud Integration: Directly wired to the TMDB API using your key (3a1e6128e79609fa6a452bd36b58f6d1). Filmographies, cast members, and global search suggestions populate dynamically without manual database maintenance.
+
+Visual Layer: Dynamic loading of official TMDB movie posters and verified artist portraits across start/target cards, chain links, and search dropdowns.
+
+Branding & Quality Fixes: Navigation tagline refined to "Let's test the cinephile in you!", and the random pairing pipeline resolved via real-time name searches to prevent mismatched actor headshots.
+
+Step-by-Step DNS Verification for cineconnect.live
+To ensure [https://cineconnect.live](https://cineconnect.live) points directly to your GitHub repository and serves over HTTPS, verify these two settings:
+
+1. In GoDaddy DNS Management
+Under DNS Records for cineconnect.live, ensure you have:
+
+4 A Records (Host: @) pointing to GitHub Pages IP addresses:
+
+185.199.108.153
+
+185.199.109.153
+
+185.199.110.153
+
+185.199.111.153
+
+1 CNAME Record (Host: www) pointing to:
+
+paritosh0108.github.io
+
+2. In GitHub Repository Settings
+Go to Settings 
+→ Pages.
+
+Under Custom domain, enter: cineconnect.live and tap Save.
+
+Check the box for Enforce HTTPS.
+
+Product Manager & Engineering Team Briefing
+With a live brand domain, our virtual development squads can focus on monetization and user retention:
+
+Sprint 1: Growth & Social Engine
+Feature: 1-Tap Scorecard Share (Canvas Image Generator).
+
+Objective: When players connect a bridge (e.g., Dev Anand 
+→ Shah Rukh Khan in 4 moves), provide an "Export Story Card" button.
+
+Deliverable: It generates a downloadable image card branded with cineconnect.live tailored for Instagram Stories and WhatsApp Status updates to drive viral referral loops.
+
+Sprint 2: Core Gameplay Retention
+Feature: The Midnight Daily Bridge (Wordle Mechanics).
+
+Objective: Give daily visitors a shared objective. Every day at 00:00 IST, every visitor gets the exact same starting actor and target actor.
+
+Deliverable: Fosters organic community debate ("I solved today's CineConnect in 3 moves, what was your route?").
+
+Monetization Strategy for cineconnect.live
+Holding a top-level domain (.live) unlocks higher-tier monetization options that subdomains cannot access:
+
+Immediate (Live Today)        Scale (1k-5k Daily Users)       Premium Tier
+• Google AdSense Approval   ──► • Rewarded Video Hints      ──► • Sponsored Movie Launches
+• UPI "Buy Me a Chai"            • Display Banner Units           • Brand Trivia Takeovers
+Google AdSense Application:
+
+Having cineconnect.live satisfies AdSense's requirement for a root domain.
+
+Place a non-intrusive bottom sticky banner and an interstitial ad when a round is won.
+
+UPI Chai Tip Jar (Zero Platform Fee):
+
+Keep a voluntary contribution button on the victory modal: "Enjoying CineConnect? Support the developer with a chai ☕ ₹29".
+
+Uses direct mobile UPI deep-linking to transfer 100% of proceeds straight to your bank account with zero intermediary commissions.
+
+Production House & PR Tie-Ups:
+
+Pitch Indian film PR agencies to sponsor the "Daily Match" whenever a major pan-Indian movie hits theaters.
+
+Prominently display "Featured Challenge presented by [Movie Title] — In Theatres Friday".
+
+Developer Agent Update & Next Move
+I have packaged the complete code below with your live domain metadata updated to cineconnect.live:
+
+HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineConnect: Live Indian Cinema Challenge</title>
+    <link rel="canonical" href="https://cineconnect.live/">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f59e0b">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #18181b; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-amber-500 selection:text-black">
+
+    <header class="border-b border-zinc-800 bg-zinc-900/80 backdrop-blur sticky top-0 z-40 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+            <span class="text-2xl">🎬</span>
+            <div>
+                <h1 class="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">CineConnect</h1>
+                <p class="text-[11px] font-medium text-amber-300/90 tracking-wide">Let's test the cinephile in you!</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="customChallengeBtn" class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 text-xs font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Custom Match
+            </button>
+            <button id="randomPairBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-shuffle"></i> Random Pair
+            </button>
+            <button id="groupSetupBtn" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-users"></i> (<span id="playerCountLabel">2</span>)
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-2xl w-full mx-auto p-4 sm:p-6 flex flex-col gap-4">
+
+        <div id="turnBanner" class="bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-transparent border border-amber-500/30 rounded-2xl p-3 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-amber-500 text-black font-black flex items-center justify-center text-xs shadow-md">
+                    <span id="turnPlayerNum">1</span>
+                </div>
+                <div>
+                    <span class="text-[10px] text-amber-400/80 uppercase font-bold tracking-wider block">Turn To Pick</span>
+                    <span id="turnPlayerName" class="font-bold text-sm text-zinc-100">Player 1</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="text-right">
+                    <span class="text-[10px] text-zinc-400 block">Moves</span>
+                    <span id="stepCount" class="font-black text-amber-400 text-sm">0</span>
+                </div>
+                <div class="text-right border-l border-zinc-800 pl-3">
+                    <span class="text-[10px] text-zinc-400 block">Cleared</span>
+                    <span id="totalClearedCount" class="font-black text-emerald-400 text-sm">0</span>
+                </div>
+                <button id="resetLevelBtn" class="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-400 text-xs transition" title="Restart Round">
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 sm:gap-4 items-center">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-3.5 flex flex-col items-center text-center">
+                <span class="text-[10px] uppercase font-bold text-zinc-400 mb-2">Starting Point</span>
+                <div id="startNodeImgContainer" class="w-20 h-24 sm:w-24 sm:h-28 rounded-xl overflow-hidden bg-zinc-800 mb-2 border border-zinc-700 flex items-center justify-center shadow-inner">
+                    <i class="fa-solid fa-spinner fa-spin text-zinc-500"></i>
+                </div>
+                <div id="startNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">Loading...</div>
+                <span id="startNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-zinc-800 text-zinc-300">ACTOR</span>
+            </div>
+
+            <div class="bg-zinc-900 border border-amber-500/30 rounded-2xl p-3.5 flex flex-col items-center text-center relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-16 h-16 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+                <span class="text-[10px] uppercase font-bold text-amber-400 mb-2">Target to Reach</span>
+                <div id="targetNodeImgContainer" class="w-20 h-24 sm:w-24 sm:h-28 rounded-xl overflow-hidden bg-zinc-800 mb-2 border border-amber-500/40 flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-spinner fa-spin text-amber-500"></i>
+                </div>
+                <div id="targetNodeTitle" class="font-bold text-sm sm:text-base text-zinc-100 line-clamp-1">Loading...</div>
+                <span id="targetNodeType" class="text-[10px] uppercase px-2 py-0.5 mt-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">ACTOR</span>
+            </div>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
+            <span class="text-xs text-zinc-400 block mb-2 font-medium">Chain of Connections:</span>
+            <div id="trailContainer" class="flex flex-wrap items-center gap-2 text-xs"></div>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 sm:p-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <label id="searchLabelPrompt" class="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-magnifying-glass text-amber-400"></i> Next Step:
+                </label>
+                <span id="loadingIndicator" class="hidden text-[10px] text-amber-400 animate-pulse flex items-center gap-1">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Fetching live from TMDB...
+                </span>
+            </div>
+
+            <div class="relative">
+                <input id="searchInput" type="text" autocomplete="off" placeholder="Type name..."
+                    class="w-full bg-zinc-950 border border-zinc-700 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition">
+                <div id="autocompleteList" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-60 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
+            </div>
+
+            <div>
+                <span id="chipsSectionTitle" class="text-[11px] text-zinc-400 block mb-2 font-medium">Auto-Fetched Connections:</span>
+                <div id="availableChips" class="flex flex-wrap gap-2 max-h-64 overflow-y-auto custom-scroll p-1"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="customModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-2xl p-5 max-w-md w-full flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+                <h3 class="font-bold text-sm text-zinc-100 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Search Any 2 People / Movies Live
+                </h3>
+                <button id="closeCustomModal" class="text-zinc-500 hover:text-zinc-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <p class="text-xs text-zinc-400">Type any actor, actress, director, or movie from any decade to search live with photos!</p>
+
+            <div class="flex flex-col gap-3">
+                <div class="relative">
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Start From (Type name):</label>
+                    <input id="customStartInput" type="text" autocomplete="off" placeholder="Type actor or movie name..."
+                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
+                    <div id="customStartSuggest" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-48 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
+                </div>
+
+                <div class="relative">
+                    <label class="text-[11px] font-semibold text-zinc-300 mb-1 block">Target to Reach (Type name):</label>
+                    <input id="customTargetInput" type="text" autocomplete="off" placeholder="Type target actor or movie..."
+                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
+                    <div id="customTargetSuggest" class="hidden absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-700 rounded-xl max-h-48 overflow-y-auto custom-scroll shadow-2xl z-30"></div>
+                </div>
+            </div>
+
+            <button id="startCustomChallengeBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-black font-bold py-2.5 rounded-xl text-xs transition">
+                Start Live Match
+            </button>
+        </div>
+    </div>
+
+    <div id="playersModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-2xl p-5 max-w-md w-full flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+                <h3 class="font-bold text-sm text-zinc-100 flex items-center gap-2">
+                    <i class="fa-solid fa-users text-amber-400"></i> Manage Group Players
+                </h3>
+                <button id="closePlayersModal" class="text-zinc-500 hover:text-zinc-300 text-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div id="playersInputList" class="flex flex-col gap-2"></div>
+
+            <div class="flex gap-2">
+                <button id="addPlayerFieldBtn" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2 rounded-xl text-xs transition">
+                    + Add Player
+                </button>
+                <button id="savePlayersBtn" class="flex-1 bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-xl text-xs transition">
+                    Save Group
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="winModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-amber-500/40 rounded-3xl p-6 max-w-sm w-full text-center flex flex-col items-center shadow-2xl">
+            <div class="text-5xl mb-2 animate-bounce">🏆</div>
+            <h2 class="text-xl font-black text-amber-400 mb-1">Bridge Connected!</h2>
+            <p id="winPlayerCelebration" class="text-sm font-semibold text-zinc-100 mb-1">Player 1 connected the bridge!</p>
+            <p id="winSubtext" class="text-xs text-zinc-400 mb-5">Completed in 4 steps.</p>
+
+            <div class="flex flex-col gap-2 w-full">
+                <button id="modalPlayNextBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-black font-bold py-2.5 rounded-xl text-xs transition">
+                    <i class="fa-solid fa-shuffle"></i> Play Random Pair
+                </button>
+                <button id="modalCustomBtn" class="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2.5 rounded-xl text-xs transition">
+                    Custom Match
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "3a1e6128e79609fa6a452bd36b58f6d1";
+        const BASE_URL = "https://api.themoviedb.org/3";
+        const IMG_BASE_URL = "https://image.tmdb.org/t/p/w185";
+
+        const CURATED_PAIRS = [
+            { start: "Dilip Kumar", target: "Shah Rukh Khan" },
+            { start: "Raj Kapoor", target: "Ranbir Kapoor" },
+            { start: "Amitabh Bachchan", target: "Rajinikanth" },
+            { start: "Kamal Haasan", target: "Shah Rukh Khan" },
+            { start: "Prabhas", target: "Amitabh Bachchan" },
+            { start: "Allu Arjun", target: "Ranbir Kapoor" },
+            { start: "Thalapathy Vijay", target: "Salman Khan" },
+            { start: "Aamir Khan", target: "Yash" },
+            { start: "Fahadh Faasil", target: "Hrithik Roshan" },
+            { start: "Sridevi", target: "Deepika Padukone" },
+            { start: "Dharmendra", target: "Ram Charan" },
+            { start: "Chiranjeevi", target: "Aamir Khan" },
+            { start: "Mohanlal", target: "Shah Rukh Khan" },
+            { start: "Mammootty", target: "Ranbir Kapoor" },
+            { start: "Waheeda Rehman", target: "Alia Bhatt" }
+        ];
+
+        let players = ["Player 1", "Player 2"];
+        let currentPlayerIndex = 0;
+        let roundsCleared = 0;
+        let currentChallengeIndex = 0;
+
+        let currentChallenge = null;
+        let currentTrail = [];
+        let currentAvailableOptions = [];
+
+        async function init() {
+            renderPlayerInputs();
+            setupSearch();
+            setupCustomInputsAutoSuggest();
+            setupEventListeners();
+            await loadPairByIndex(0);
+        }
+
+        function setupEventListeners() {
+            document.getElementById('groupSetupBtn').onclick = () => document.getElementById('playersModal').classList.remove('hidden');
+            document.getElementById('closePlayersModal').onclick = () => document.getElementById('playersModal').classList.add('hidden');
+            
+            document.getElementById('customChallengeBtn').onclick = () => {
+                document.getElementById('customStartInput').value = '';
+                document.getElementById('customTargetInput').value = '';
+                document.getElementById('customModal').classList.remove('hidden');
+            };
+            document.getElementById('closeCustomModal').onclick = () => document.getElementById('customModal').classList.add('hidden');
+
+            document.getElementById('randomPairBtn').onclick = loadRandomPair;
+
+            document.getElementById('addPlayerFieldBtn').onclick = () => {
+                if (players.length < 8) {
+                    players.push(`Player ${players.length + 1}`);
+                    renderPlayerInputs();
+                }
+            };
+
+            document.getElementById('savePlayersBtn').onclick = () => {
+                const inputs = document.querySelectorAll('.player-input-val');
+                const newPlayers = [];
+                inputs.forEach((inp, idx) => {
+                    const name = inp.value.trim() || `Player ${idx + 1}`;
+                    newPlayers.push(name);
+                });
+                if (newPlayers.length >= 1) {
+                    players = newPlayers;
+                    document.getElementById('playerCountLabel').textContent = players.length;
+                    document.getElementById('playersModal').classList.add('hidden');
+                    updateTurnIndicator();
+                }
+            };
+
+            document.getElementById('resetLevelBtn').onclick = () => {
+                if (currentChallenge) {
+                    startChallenge(currentChallenge.start, currentChallenge.target);
+                }
+            };
+
+            document.getElementById('modalPlayNextBtn').onclick = () => {
+                document.getElementById('winModal').classList.add('hidden');
+                loadRandomPair();
+            };
+
+            document.getElementById('modalCustomBtn').onclick = () => {
+                document.getElementById('winModal').classList.add('hidden');
+                document.getElementById('customModal').classList.remove('hidden');
+            };
+        }
+
+        async function fetchExactPersonByName(name) {
+            try {
+                const res = await fetch(`${BASE_URL}/search/person?api_key=${API_KEY}&query=${encodeURIComponent(name)}`);
+                const data = await res.json();
+                if (data.results && data.results.length > 0) {
+                    const p = data.results[0];
+                    return {
+                        id: p.id,
+                        name: p.name,
+                        type: 'actor',
+                        img: p.profile_path
+                    };
+                }
+            } catch (err) {
+                console.error("Person search error:", err);
+            }
+            return { id: null, name: name, type: 'actor', img: null };
+        }
+
+        async function loadPairByIndex(index) {
+            currentChallengeIndex = index;
+            const pair = CURATED_PAIRS[index];
+            toggleLoading(true);
+
+            const [startEntity, targetEntity] = await Promise.all([
+                fetchExactPersonByName(pair.start),
+                fetchExactPersonByName(pair.target)
+            ]);
+
+            toggleLoading(false);
+            await startChallenge(startEntity, targetEntity);
+        }
+
+        async function loadRandomPair() {
+            let nextIndex = Math.floor(Math.random() * CURATED_PAIRS.length);
+            if (nextIndex === currentChallengeIndex && CURATED_PAIRS.length > 1) {
+                nextIndex = (nextIndex + 1) % CURATED_PAIRS.length;
+            }
+            await loadPairByIndex(nextIndex);
+        }
+
+        function renderPlayerInputs() {
+            const list = document.getElementById('playersInputList');
+            list.innerHTML = '';
+            players.forEach((p, idx) => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-2';
+                div.innerHTML = `
+                    <span class="text-xs font-bold text-amber-400 w-6">#${idx + 1}</span>
+                    <input type="text" value="${p}" class="player-input-val flex-1 bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-100 outline-none focus:border-amber-500">
+                    ${players.length > 1 ? `<button onclick="removePlayer(${idx})" class="text-zinc-500 hover:text-rose-400 text-xs px-2"><i class="fa-solid fa-trash"></i></button>` : ''}
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        window.removePlayer = function(index) {
+            if (players.length > 1) {
+                players.splice(index, 1);
+                renderPlayerInputs();
+            }
+        };
+
+        async function startChallenge(start, target) {
+            currentChallenge = { start, target };
+            currentTrail = [start];
+            currentPlayerIndex = 0;
+
+            document.getElementById('startNodeTitle').textContent = start.name;
+            document.getElementById('startNodeType').textContent = start.type.toUpperCase();
+            document.getElementById('targetNodeTitle').textContent = target.name;
+            document.getElementById('targetNodeType').textContent = target.type.toUpperCase();
+
+            renderNodeImage(start, 'startNodeImgContainer');
+            renderNodeImage(target, 'targetNodeImgContainer');
+
+            updateTurnIndicator();
+            await updateTrailAndChips();
+        }
+
+        function renderNodeImage(node, containerId) {
+            const container = document.getElementById(containerId);
+            if (node.img) {
+                container.innerHTML = `<img src="${IMG_BASE_URL + node.img}" class="w-full h-full object-cover rounded-xl" alt="${node.name}" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'text-3xl\\'>👤</span>'">`;
+            } else {
+                container.innerHTML = `<span class="text-3xl">${node.type === 'movie' ? '🎬' : '👤'}</span>`;
+            }
+        }
+
+        function updateTurnIndicator() {
+            document.getElementById('turnPlayerNum').textContent = currentPlayerIndex + 1;
+            document.getElementById('turnPlayerName').textContent = players[currentPlayerIndex];
+        }
+
+        function nextTurn() {
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            updateTurnIndicator();
+        }
+
+        async function updateTrailAndChips() {
+            const last = currentTrail[currentTrail.length - 1];
+            document.getElementById('stepCount').textContent = currentTrail.length - 1;
+
+            const searchInput = document.getElementById('searchInput');
+            const chipsTitle = document.getElementById('chipsSectionTitle');
+            const searchLabel = document.getElementById('searchLabelPrompt');
+
+            if (last.type === 'actor') {
+                searchLabel.innerHTML = `<i class="fa-solid fa-film text-amber-400"></i> Pick any Movie starring <span class="text-amber-400 font-bold ml-1">${last.name}</span>:`;
+                searchInput.placeholder = `Search any movie featuring ${last.name}...`;
+                chipsTitle.innerHTML = `Live Filmography of <strong>${last.name}</strong>:`;
+            } else {
+                searchLabel.innerHTML = `<i class="fa-solid fa-users text-amber-400"></i> Pick Cast or Director from <span class="text-amber-400 font-bold ml-1">${last.name}</span>:`;
+                searchInput.placeholder = `Search cast or director from ${last.name}...`;
+                chipsTitle.innerHTML = `Cast & Crew of <strong>${last.name}</strong>:`;
+            }
+
+            const trailEl = document.getElementById('trailContainer');
+            trailEl.innerHTML = '';
+            currentTrail.forEach((node, i) => {
+                const span = document.createElement('span');
+                const badgeColor = node.type === 'movie' 
+                    ? 'bg-zinc-800 text-zinc-200 border-zinc-700' 
+                    : node.type === 'director' 
+                    ? 'bg-emerald-950/70 text-emerald-300 border-emerald-800' 
+                    : 'bg-amber-950/70 text-amber-300 border-amber-800';
+                
+                span.className = `px-2.5 py-1 rounded-lg border ${badgeColor} font-medium flex items-center gap-2`;
+                
+                const thumbHtml = node.img 
+                    ? `<img src="${IMG_BASE_URL + node.img}" class="w-5 h-5 rounded-full object-cover">` 
+                    : `<span class="text-xs">${node.type === 'movie' ? '🎬' : '👤'}</span>`;
+
+                span.innerHTML = `${thumbHtml} <span>${node.name}</span>`;
+                trailEl.appendChild(span);
+
+                if (i < currentTrail.length - 1) {
+                    const arrow = document.createElement('i');
+                    arrow.className = 'fa-solid fa-chevron-right text-zinc-600 text-[10px]';
+                    trailEl.appendChild(arrow);
+                }
+            });
+
+            if ((last.id && currentChallenge.target.id && last.id === currentChallenge.target.id) || 
+                (last.name.toLowerCase() === currentChallenge.target.name.toLowerCase())) {
+                handleWin();
+                return;
+            }
+
+            toggleLoading(true);
+            currentAvailableOptions = await fetchLiveConnections(last);
+            toggleLoading(false);
+            renderChips(currentAvailableOptions);
+        }
+
+        function toggleLoading(isLoading) {
+            const el = document.getElementById('loadingIndicator');
+            if (isLoading) el.classList.remove('hidden');
+            else el.classList.add('hidden');
+        }
+
+        async function fetchLiveConnections(node) {
+            try {
+                if (node.type === 'actor' || node.type === 'director') {
+                    const res = await fetch(`${BASE_URL}/person/${node.id}/movie_credits?api_key=${API_KEY}`);
+                    const data = await res.json();
+                    const movies = [];
+                    const seen = new Set();
+
+                    (data.cast || []).forEach(m => {
+                        if (m.title && !seen.has(m.id)) {
+                            seen.add(m.id);
+                            movies.push({ id: m.id, name: m.title, type: 'movie', img: m.poster_path, year: (m.release_date || '').split('-')[0] });
+                        }
+                    });
+
+                    (data.crew || []).filter(c => c.job === 'Director').forEach(m => {
+                        if (m.title && !seen.has(m.id)) {
+                            seen.add(m.id);
+                            movies.push({ id: m.id, name: m.title, type: 'movie', img: m.poster_path, year: (m.release_date || '').split('-')[0] });
+                        }
+                    });
+
+                    return movies.sort((a, b) => (b.year || 0) - (a.year || 0));
+                } else {
+                    const res = await fetch(`${BASE_URL}/movie/${node.id}/credits?api_key=${API_KEY}`);
+                    const data = await res.json();
+                    const people = [];
+                    const seen = new Set();
+
+                    (data.cast || []).slice(0, 35).forEach(c => {
+                        if (c.name && !seen.has(c.id)) {
+                            seen.add(c.id);
+                            people.push({ id: c.id, name: c.name, type: 'actor', img: c.profile_path });
+                        }
+                    });
+
+                    (data.crew || []).filter(c => c.job === 'Director').forEach(d => {
+                        if (d.name && !seen.has(d.id)) {
+                            seen.add(d.id);
+                            people.push({ id: d.id, name: d.name, type: 'director', img: d.profile_path });
+                        }
+                    });
+
+                    return people;
+                }
+            } catch (err) {
+                console.error("API error:", err);
+                return [];
+            }
+        }
+
+        function renderChips(options) {
+            const container = document.getElementById('availableChips');
+            container.innerHTML = '';
+            if (!options.length) {
+                container.innerHTML = '<span class="text-xs text-zinc-500">No connections returned. Type in the search box above!</span>';
+                return;
+            }
+
+            options.slice(0, 45).forEach(opt => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                const style = opt.type === 'movie' 
+                    ? 'bg-zinc-800 text-zinc-200 border-zinc-700 hover:border-amber-400' 
+                    : opt.type === 'director' 
+                    ? 'bg-emerald-950/60 text-emerald-300 border-emerald-800 hover:border-emerald-400' 
+                    : 'bg-amber-950/60 text-amber-300 border-amber-800 hover:border-amber-400';
+                
+                btn.className = `px-2.5 py-1.5 rounded-xl border text-xs font-medium cursor-pointer transition flex items-center gap-2 ${style}`;
+                
+                const thumbHtml = opt.img 
+                    ? `<img src="${IMG_BASE_URL + opt.img}" class="w-6 h-7 rounded object-cover shadow-sm">` 
+                    : `<span class="text-xs">${opt.type === 'movie' ? '🎬' : '👤'}</span>`;
+
+                btn.innerHTML = `${thumbHtml} <span>${opt.name} ${opt.year ? `<span class="opacity-60 text-[10px]">(${opt.year})</span>` : ''}</span>`;
+                btn.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    makeMove(opt);
+                });
+                container.appendChild(btn);
+            });
+        }
+
+        async function makeMove(choice) {
+            currentTrail.push(choice);
+            document.getElementById('searchInput').value = '';
+            document.getElementById('autocompleteList').classList.add('hidden');
+            
+            if ((choice.id && currentChallenge.target.id && choice.id === currentChallenge.target.id) || 
+                (choice.name.toLowerCase() === currentChallenge.target.name.toLowerCase())) {
+                await updateTrailAndChips();
+                return;
+            }
+
+            nextTurn();
+            await updateTrailAndChips();
+        }
+
+        function handleWin() {
+            roundsCleared++;
+            document.getElementById('totalClearedCount').textContent = roundsCleared;
+            document.getElementById('winPlayerCelebration').textContent = `${players[currentPlayerIndex]} completed the connection! 🎉`;
+            document.getElementById('winSubtext').textContent = `The team successfully connected them in ${currentTrail.length - 1} steps!`;
+            document.getElementById('winModal').classList.remove('hidden');
+        }
+
+        function setupSearch() {
+            const input = document.getElementById('searchInput');
+            const autoList = document.getElementById('autocompleteList');
+
+            input.addEventListener('input', () => {
+                const val = input.value.trim().toLowerCase();
+                if (!val) {
+                    autoList.classList.add('hidden');
+                    return;
+                }
+                const matches = currentAvailableOptions.filter(o => o.name.toLowerCase().includes(val));
+
+                autoList.innerHTML = '';
+                if (matches.length > 0) {
+                    matches.slice(0, 15).forEach(m => {
+                        const div = document.createElement('div');
+                        div.className = 'px-3 py-2 text-xs hover:bg-zinc-800 cursor-pointer text-zinc-200 flex items-center justify-between border-b border-zinc-900 last:border-none';
+                        const thumbHtml = m.img 
+                            ? `<img src="${IMG_BASE_URL + m.img}" class="w-6 h-7 rounded object-cover mr-2">` 
+                            : `<span class="mr-2">${m.type === 'movie' ? '🎬' : '👤'}</span>`;
+
+                        div.innerHTML = `<div class="flex items-center">${thumbHtml} <span>${m.name} ${m.year ? `<span class="text-zinc-500">(${m.year})</span>` : ''}</span></div> <span class="text-[10px] text-zinc-500 uppercase">${m.type}</span>`;
+                        div.addEventListener('mousedown', (e) => {
+                            e.preventDefault();
+                            makeMove(m);
+                        });
+                        autoList.appendChild(div);
+                    });
+                    autoList.classList.remove('hidden');
+                } else {
+                    autoList.classList.add('hidden');
+                }
+            });
+
+            input.addEventListener('blur', () => {
+                setTimeout(() => autoList.classList.add('hidden'), 150);
+            });
+        }
+
+        function setupCustomInputsAutoSuggest() {
+            let startSelected = null;
+            let targetSelected = null;
+
+            bindLiveGlobalSearch(document.getElementById('customStartInput'), document.getElementById('customStartSuggest'), (item) => {
+                startSelected = item;
+            });
+            bindLiveGlobalSearch(document.getElementById('customTargetInput'), document.getElementById('customTargetSuggest'), (item) => {
+                targetSelected = item;
+            });
+
+            document.getElementById('startCustomChallengeBtn').onclick = () => {
+                if (!startSelected || !targetSelected) {
+                    alert("Please select both items from the suggestion dropdown list!");
+                    return;
+                }
+                if (startSelected.id === targetSelected.id) {
+                    alert("Start and Target cannot be identical!");
+                    return;
+                }
+
+                document.getElementById('customModal').classList.add('hidden');
+                startChallenge(startSelected, targetSelected);
+            };
+        }
+
+        function bindLiveGlobalSearch(inputEl, suggestEl, onSelect) {
+            let debounceTimer;
+            inputEl.addEventListener('input', () => {
+                clearTimeout(debounceTimer);
+                const query = inputEl.value.trim();
+                if (query.length < 2) {
+                    suggestEl.classList.add('hidden');
+                    return;
+                }
+
+                debounceTimer = setTimeout(async () => {
+                    try {
+                        const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
+                        const data = await res.json();
+                        suggestEl.innerHTML = '';
+
+                        const validResults = (data.results || []).filter(r => r.media_type === 'person' || r.media_type === 'movie');
+
+                        if (validResults.length > 0) {
+                            validResults.slice(0, 10).forEach(r => {
+                                const isMovie = r.media_type === 'movie';
+                                const title = isMovie ? r.title : r.name;
+                                const imgPath = isMovie ? r.poster_path : r.profile_path;
+                                const sub = isMovie ? (r.release_date || '').split('-')[0] : (r.known_for_department || 'Artist');
+                                
+                                const row = document.createElement('div');
+                                row.className = 'px-3 py-2 text-xs hover:bg-zinc-800 cursor-pointer text-zinc-200 flex items-center justify-between border-b border-zinc-900 last:border-none';
+                                
+                                const thumbHtml = imgPath 
+                                    ? `<img src="${IMG_BASE_URL + imgPath}" class="w-6 h-7 rounded object-cover mr-2">` 
+                                    : `<span class="mr-2">${isMovie ? '🎬' : '👤'}</span>`;
+
+                                row.innerHTML = `<div class="flex items-center">${thumbHtml} <span>${title} <span class="text-zinc-500 text-[10px]">(${sub})</span></span></div> <span class="text-[10px] text-zinc-500 uppercase">${isMovie ? 'Movie' : 'Person'}</span>`;
+                                row.addEventListener('mousedown', (e) => {
+                                    e.preventDefault();
+                                    inputEl.value = title;
+                                    onSelect({ id: r.id, name: title, type: isMovie ? 'movie' : 'actor', img: imgPath });
+                                    suggestEl.classList.add('hidden');
+                                });
+                                suggestEl.appendChild(row);
+                            });
+                            suggestEl.classList.remove('hidden');
+                        } else {
+                            suggestEl.classList.add('hidden');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }, 300);
+            });
+
+            inputEl.addEventListener('blur', () => {
+                setTimeout(() => suggestEl.classList.add('hidden'), 200);
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
+Should we proceed with building the Instagram Scorecard Export tool or integrate the UPI Chai Tip Jar modal next?
+
+Not now next week will work on development side only like we will automate or deploy mew freature
+
+Understood. We will pause all new development, code changes, and deployments until next week.
+
+While the tech side is frozen, the site is stable, fast, and live at cineconnect.live. This gives you the entire week to focus purely on distribution, gathering user feedback, and testing:
+
+Share it casually: Drop the link in your WhatsApp movie groups, college/work chats, or Instagram stories.
+
+Observe how people play: Watch if players get stuck, which actors they try to bridge most, or where they spend the most time.
+
+List down user friction: Note any quirks, missing connections, or features your friends request while playing.
+
+Whenever you're ready next week, drop a message here with your notes and we'll dive straight into the code to automate, optimize, and ship the next set of features. Have fun sharing it this week!
+
+Hey jist quick update how to check how much traffic on my website
+
+Here are the two ways to check your traffic, starting with the one you can check immediately without adding any code:
+
+Option 1: Instant Check via GitHub Insights (No setup needed)
+Since your site runs on your GitHub repository, GitHub already tracks basic traffic out of the box:
+
+Open your repository at [github.com/paritosh0108/Cineconnect](https://github.com/paritosh0108/Cineconnect) on your phone browser or desktop.
+
+Tap the Insights tab (located in the top menu alongside Code, Issues, Pull requests).
+
+If on a phone: Request the "Desktop site" view in Chrome so all tabs are visible.
+
+Tap Traffic from the left-side menu.
+
+You will see:
+
+Visitors: Unique people who loaded your site over the past 14 days.
+
+Views: Total page impressions.
+
+Top Referring Sites: See whether traffic came from WhatsApp, Instagram, Google, Reddit, etc.
+
+(Note: GitHub traffic stats update once daily and keep data for the last 14 days.)
+
+Option 2: Live Real-Time Tracking via Google Analytics 4 (Recommended for monetization)
+To see live counts (e.g., "34 people playing right now", which cities they are from, and average game time), add Google Analytics 4 (GA4). It is completely free and essential for when you apply for ad networks later:
+
+Go to analytics.google.com and log in with your Google account.
+
+Click Create Property, name it CineConnect, and select India / INR.
+
+Choose Web as the platform and type your domain: [https://cineconnect.live](https://cineconnect.live).
+
+Copy your Measurement ID (it looks like G-XXXXXXXXXX).
+
+Open your index.html on GitHub, tap the edit pencil (✏️), and paste the snippet directly under <head>:
+
+HTML
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+(Replace G-XXXXXXXXXX with your actual ID, then commit changes.)
+
+Once pasted, open the Realtime report inside the Google Analytics dashboard or the free Google Analytics mobile app, and you can watch active players live on a world map as they test their cinema skills.
+
+lets update on this
+
+Welcome back to development mode. We have the codebase, the live deployment at cineconnect.live, and the TMDB API integration in place.
+
+Here are the highest-impact features ready to build for this week's sprint:
+
+Google Analytics (GA4) Integration: Embed your G-XXXXXXXXXX tag directly into the <head> of index.html so you can watch live traffic, user countries, and session lengths.
+
+Instagram & WhatsApp Story Share Card (Canvas Generator): A 1-tap "Share Victory" button on the win modal that exports a sleek, branded image card ("Bridged Dilip Kumar to Shah Rukh Khan in 4 moves on cineconnect.live") for social sharing.
+
+The Midnight Daily Challenge (Wordle Mode): A shared daily challenge pinned for all players globally that resets every night at 00:00 IST.
+
+Haptic & Sound Effects (Web Audio API): Clean sound clicks on selection, turn changes, and a celebratory chime on winning.
+
+UPI Chai Tip Jar Modal: A direct "Buy the dev a chai (₹29)" button embedded on the victory screen.
+
+Which one do you want to start with, or did you have a specific new feature or tweak in mind from your testing this past week?
+
+Now i want to update when user match correctly and it pop up with succed so it play soundand audio i want to give it play gabbar khus hua from sholay
+
+The code has been updated to trigger the victory audio and show the Sholay badge whenever a match succeeds:
+
+HTML icon
+index
+ HTML 
+Step 1: Add the Audio File to Your Repository
+Grab your "Gabbar Khush Hua" audio clip and name the file exactly:
+
+Plaintext
+gabbar.mp3
+Open your GitHub repository: github.com/paritosh0108/Cineconnect.   
+index.html
+
+Tap Add file 
+→ Upload files.
+
+Select gabbar.mp3 from your phone/device and tap Commit changes.
+
+If you want to host it online instead of uploading an MP3 file, you can replace src="gabbar.mp3" in the code with any direct audio URL.
+
+Step 2: Update index.html
+Open index.html in your repository and tap the edit pencil (✏️).
+
+Select all old code, delete it, paste the updated code from the file above, and tap Commit changes.
+
+What Happens on Success:
+Whenever the final connecting move is completed, the victory modal triggers playVictorySound() and plays the "Gabbar Khush Hua" audio instantly.
+
+The victory modal displays an amber banner:
+
+"Bahut Yaaraana Lagta Hai... Gabbar Khush Hua!"
+
+chage audio name to victory
+
+The audio source has been changed from gabbar.mp3 to victory.mp3.
+
+Here is your updated index.html file:
+
+HTML icon
+index
+ HTML 
+What Changed in the Code:
+The audio element now targets victory.mp3:
+
+HTML
+<!-- Victory Audio -->
+<audio id="victoryAudio" preload="auto" src="victory.mp3"></audio>
+Step-by-Step GitHub Update:
+Rename / Upload your audio file:
+
+In your GitHub repository root (Cineconnect), ensure your audio file is named exactly:
+
+Plaintext
+victory.mp3
+Verification: Opening [https://cineconnect.live/victory.mp3](https://cineconnect.live/victory.mp3) in your browser directly plays the audio clip.
+
+Update index.html:
+
+Open index.html in your repository.
+
+Tap the edit pencil (✏️), replace the contents with the updated code above, and tap Commit changes.
+
+Verification: Upon completing any connection, the victory popup triggers and plays victory.mp3 immediately.
+
+
+
+
+
+Gemini is AI and can make mistakes.
+
+Convert chat to PDF
+Convert chat to PDF
+Open this chat in Acrobat
+Analyzing
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -176,12 +1349,18 @@
         </div>
     </div>
 
+    <!-- Victory Audio -->
+    <audio id="victoryAudio" preload="auto" src="victory.mp3"></audio>
+
     <!-- Win Modal -->
     <div id="winModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-zinc-900 border border-amber-500/40 rounded-3xl p-6 max-w-sm w-full text-center flex flex-col items-center shadow-2xl">
-            <div class="text-5xl mb-2 animate-bounce">🏆</div>
+            <div class="text-5xl mb-2 animate-bounce">🤠🎬</div>
+            <div class="inline-block px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 text-xs font-black tracking-wider uppercase mb-2">
+                "Bahut Yaaraana Lagta Hai... Gabbar Khush Hua!"
+            </div>
             <h2 class="text-xl font-black text-amber-400 mb-1">Bridge Connected!</h2>
-            <p id="winPlayerCelebration" class="text-sm font-semibold text-zinc-100 mb-1">Player 1 connected the bridge!</p>
+            <p id="winPlayerCelebration" class="text-sm font-semibold text-zinc-100 mb-1">Player 1 completed the connection!</p>
             <p id="winSubtext" class="text-xs text-zinc-400 mb-5">Completed in 4 steps.</p>
 
             <div class="flex flex-col gap-2 w-full">
@@ -552,12 +1731,23 @@
             await updateTrailAndChips();
         }
 
+        function playVictorySound() {
+            const audio = document.getElementById('victoryAudio');
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(err => {
+                    console.log("Audio playback waiting for user interaction or file path:", err);
+                });
+            }
+        }
+
         function handleWin() {
             roundsCleared++;
             document.getElementById('totalClearedCount').textContent = roundsCleared;
             document.getElementById('winPlayerCelebration').textContent = `${players[currentPlayerIndex]} completed the connection! 🎉`;
             document.getElementById('winSubtext').textContent = `The team successfully connected them in ${currentTrail.length - 1} steps!`;
             document.getElementById('winModal').classList.remove('hidden');
+            playVictorySound();
         }
 
         function setupSearch() {
@@ -685,4 +1875,5 @@
     </script>
 </body>
 </html>
-
+index.html
+Displaying index.html.
